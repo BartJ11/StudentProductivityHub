@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Productivity Hub – Schedule</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="history.back()">←</button>
+      <span class="site-title">Student <span>Productivity</span> Hub</span>
+    </div>
+    <div class="topbar-nav">
+      <a href="index.html">Home</a>
+      <a href="study-tips.html">Study Tips</a>
+      <a href="schedule.html" class="active">Schedule</a>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-bar" type="text" placeholder="Search" />
+    </div>
+  </nav>
+
+  <div class="main-layout">
+
+    <aside class="sidebar">
+      
+      <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input" />
+      
+      <label for="sidebar-toggle" class="sidebar-toggle-btn">
+        <span class="arrow-icon">→</span>
+      </label>
+
+      <div class="sidebar-collapsed">
+        <span class="sidebar-group-label">Navigation</span>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('schedule-section')">
+          <span class="sidebar-icon">📅</span>
+          <span class="sidebar-text">Weekly Calendar</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('tasks-section')">
+          <span class="sidebar-icon">📋</span>
+          <span class="sidebar-text">Task Board</span>
+          <span class="sidebar-badge" id="task-badge">2</span>
+        </a>
+        <a href="index.html#analytics-card" class="sidebar-item">
+          <span class="sidebar-icon">📊</span>
+          <span class="sidebar-text">Analytics</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('schedule-section'); document.getElementById('focus-zone-card').scrollIntoView({behavior:'smooth'});">
+          <span class="sidebar-icon">🎯</span>
+          <span class="sidebar-text">Focus Zone</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('schedule-section'); document.getElementById('resources-card').scrollIntoView({behavior:'smooth'});">
+          <span class="sidebar-icon">📚</span>
+          <span class="sidebar-text">Resource Library</span>
+        </a>
+        <span class="sidebar-group-label" style="margin-top:12px">Account</span>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('settings-section')">
+          <span class="sidebar-icon">⚙️</span>
+          <span class="sidebar-text">Account Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-expanded">
+        <div class="focus-mini">
+          <div class="focus-mini-header">
+            <span class="focus-check-mini">✓</span> Today's Focus
+          </div>
+          <div id="focus-mini-list">
+            <div class="focus-mini-task"><span class="focus-tick-mini">✔</span> Finish Math Review and Read Chapter 3 in English</div>
+          </div>
+        </div>
+
+        <div class="snapshot-mini">
+          <div class="snapshot-mini-title">📋 To-do Snapshot</div>
+          <div id="snapshot-list"></div>
+          <button class="view-tasks-mini-btn" onclick="showSection('tasks-section')">VIEW TASKS</button>
+        </div>
+
+        <div class="sidebar-links">
+          <a href="index.html" class="sidebar-link">Pomodoro Timer</a>
+          <a href="javascript:void(0)" class="sidebar-link" onclick="toggleDarkMode()">Dark Mode</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="content">
+
+      <div id="schedule-section" class="content-view">
+
+        <div class="focus-box animate-1">
+          <div class="focus-box-header">
+            <div class="focus-check">✓</div>
+            <h2>Today's Focus</h2>
+          </div>
+          <div id="focus-box-list">
+            <div class="focus-task"><span class="focus-tick">✔</span> Finish Math Review and Read Chapter 3 in English.</div>
+          </div>
+        </div>
+
+        <div class="card animate-2" style="margin-bottom: 24px;">
+          <div class="card-title" style="margin-bottom: 20px;">
+            <div class="card-title-icon">📅</div>
+            Weekly Calendar
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="cal-table" id="cal-table">
+              <thead>
+                <tr>
+                  <th class="time-th">Times ⭐</th>
+                  <th>Monday</th>
+                  <th>Tuesday</th>
+                  <th>Wednesday</th>
+                  <th>Thursday</th>
+                  <th>Friday</th>
+                  <th>Saturday</th>
+                  <th>Sunday</th>
+                </tr>
+              </thead>
+              <tbody id="cal-tbody"></tbody>
+            </table>
+          </div>
+          <div class="cal-row-controls">
+            <button class="cal-row-btn" onclick="calAddRow()">+ Add Row</button>
+            <button class="cal-row-btn remove" onclick="calRemoveRow()">− Remove Row</button>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+          
+          <div class="card animate-3" id="focus-zone-card">
+            <div class="card-title" style="margin-bottom: 20px;">
+              <div class="card-title-icon">🎯</div>
+              Focus Zone
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="zone-mini-card" onclick="window.location.href='index.html'" style="cursor:pointer;">
+                <div class="zone-mini-icon">⏱️</div>
+                <div class="zone-mini-label">Pomodoro Timer</div>
+              </div>
+              <div class="zone-mini-card">
+                <div class="zone-mini-icon">🚫</div>
+                <div class="zone-mini-label">Website Blocker</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card animate-4" id="resources-card">
+            <div class="card-title" style="margin-bottom: 20px;">
+              <div class="card-title-icon">📚</div>
+              Resources
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="zone-mini-card">
+                <div class="zone-mini-icon">📄</div>
+                <div class="zone-mini-label">Study Templates</div>
+              </div>
+              <div class="zone-mini-card">
+                <div class="zone-mini-icon">📖</div>
+                <div class="zone-mini-label">Exam Prep</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div id="tasks-section" class="content-view" style="display: none;">
+        <div class="card animate-1">
+          <div class="card-title">
+            <div class="card-title-icon">📋</div>
+            Task Board
+          </div>
+          <div class="task-focus-header">
+            <span class="task-focus-hint">🎯 Check the box under <strong>Today's Focus</strong> to pin a task to your Today's Focus section</span>
+          </div>
+          <div class="task-list-header">
+            <span class="tlh-task">Task</span>
+            <span class="tlh-focus">Today's Focus</span>
+            <span class="tlh-actions">Actions</span>
+          </div>
+          <div id="task-list" class="task-list"></div>
+          <div class="task-add-row">
+            <input type="text" id="task-input" class="settings-input task-input-field" placeholder="Add a new task..." />
+            <select id="task-priority" class="settings-input task-priority-select">
+              <option value="high">🔴 High Priority</option>
+              <option value="normal" selected>🟡 Normal</option>
+              <option value="low">🟢 Low Priority</option>
+            </select>
+            <button class="settings-save-btn task-add-btn" onclick="addTask()">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="analytics-section" class="content-view" style="display: none;">
+        <div class="card animate-1">
+          <div class="card-title">📊 Analytics</div>
+          <p>Tracking study trends.</p>
+        </div>
+      </div>
+
+      <div id="focus-section" class="content-view" style="display: none;">
+        <div class="card animate-1">
+          <div class="card-title">🎯 Focus Zone</div>
+          <p>Tools to help you stay focused.</p>
+        </div>
+      </div>
+
+      <div id="resources-section" class="content-view" style="display: none;">
+        <div class="card animate-1">
+          <div class="card-title">📚 Resource Library</div>
+          <p>Templates and study materials.</p>
+        </div>
+      </div>
+
+      <div id="settings-section" class="content-view" style="display: none;">
+        <div class="card animate-1" style="margin-bottom: 24px;">
+          <div class="card-title" style="margin-bottom: 20px;">
+            <div class="card-title-icon">👤</div>
+            User Profile
+          </div>
+          <div class="settings-group">
+            <div class="settings-field">
+              <label class="settings-label">Full Name</label>
+              <input type="text" id="profile-name" class="settings-input" placeholder="e.g. Juan Dela Cruz" />
+            </div>
+            <div class="settings-field">
+              <label class="settings-label">College Year</label>
+              <select id="profile-year" class="settings-input">
+                <option value="">Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="5th Year">5th Year</option>
+              </select>
+            </div>
+            <div class="settings-field">
+              <label class="settings-label">Major / Program</label>
+              <input type="text" id="profile-major" class="settings-input" placeholder="e.g. BS Computer Engineering" />
+            </div>
+            <button class="settings-save-btn" onclick="saveProfile()">Save Profile</button>
+            <p id="profile-saved-msg" class="settings-success-msg" style="display:none;">✔ Profile saved!</p>
+          </div>
+        </div>
+
+        <div class="card animate-2" style="margin-bottom: 24px;">
+          <div class="card-title" style="margin-bottom: 20px;">
+            <div class="card-title-icon">⏱</div>
+            Pomodoro Customization
+          </div>
+          <div class="settings-group">
+            <div class="settings-field">
+              <label class="settings-label">Study Session Duration (HH:MM:SS)</label>
+              <div class="pomo-time-input-wrap"><input type="text" id="pomo-study-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+                <span class="pomo-time-colon">:</span>
+                <input type="text" id="pomo-study-mm" class="settings-input pomo-time-part" maxlength="2" placeholder="25" />
+                <span class="pomo-time-colon">:</span>
+                <input type="text" id="pomo-study-ss" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+            </div>
+            <div class="settings-field">
+              <label class="settings-label">Short Break Duration (HH:MM:SS)</label>
+              <div class="pomo-time-input-wrap"><input type="text" id="pomo-break-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+                <span class="pomo-time-colon">:</span>
+                <input type="text" id="pomo-break-mm" class="settings-input pomo-time-part" maxlength="2" placeholder="05" />
+                <span class="pomo-time-colon">:</span>
+                <input type="text" id="pomo-break-ss" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+            </div>
+            <button class="settings-save-btn" onclick="savePomodoro()">Apply Timer</button>
+            <p id="pomo-saved-msg" class="settings-success-msg" style="display:none;">✔ Timer updated! Visit Home tab to see it.</p>
+          </div>
+        </div>
+
+        <div class="card animate-3">
+          <div class="card-title" style="margin-bottom: 20px;">
+            <div class="card-title-icon">🗑️</div>
+            Data Management
+          </div>
+          <div class="settings-group">
+            <p class="settings-desc">This will permanently clear all saved data including tasks, analytics, and settings stored in your browser.</p>
+            <button class="settings-danger-btn" onclick="clearAllData()">Clear All Data</button>
+            <p id="clear-msg" class="settings-success-msg" style="display:none;">✔ All data cleared.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>@ 2026 Student Productivity Hub</footer>
+
+  <script>
+
+    // ── Task Data ──
+    const DEFAULT_TASKS = [
+      { id: 1, text: '2 High Priority Tasks', priority: 'high', done: false, focus: false },
+      { id: 2, text: '1 Exam This Week', priority: 'high', done: false, focus: false }
+    ];
+    function getTasks() {
+      const s = localStorage.getItem('tasks');
+      return s ? JSON.parse(s) : DEFAULT_TASKS;
+    }
+    function saveTasks(t) { localStorage.setItem('tasks', JSON.stringify(t)); }
+
+    function renderTasks() {
+      const tasks = getTasks();
+      const list = document.getElementById('task-list');
+      if (list) {
+        list.innerHTML = '';
+        if (tasks.length === 0) {
+          list.innerHTML = '<p class="task-empty">No tasks yet. Add one below!</p>';
+        } else {
+          tasks.forEach(task => {
+            const pl = task.priority === 'high' ? '🔴' : task.priority === 'low' ? '🟢' : '🟡';
+            const item = document.createElement('div');
+            item.className = 'task-item' + (task.done ? ' task-done' : '') + (task.focus ? ' task-is-focus' : '');
+            item.innerHTML =
+              '<span class="task-priority-dot">' + pl + '</span>' +
+              '<span class="task-text">' + task.text + '</span>' +
+              '<label class="task-focus-label" title="Pin to Today\'s Focus">' +
+                '<input type="checkbox" ' + (task.focus ? 'checked' : '') + ' onchange="toggleFocus(' + task.id + ', this.checked)" />' +
+                '<span class="task-focus-box">' + (task.focus ? '🎯' : '☐') + '</span>' +
+              '</label>' +
+              '<div class="task-actions">' +
+                '<button class="task-btn task-done-btn" onclick="toggleTask(' + task.id + ')">' + (task.done ? '↩' : '✔') + '</button>' +
+                '<button class="task-btn task-delete-btn" onclick="deleteTask(' + task.id + ')">✕</button>' +
+              '</div>';
+            list.appendChild(item);
+          });
+        }
+      }
+      updateBadge(tasks);
+      renderSnapshot(tasks);
+      renderFocusBox(tasks);
+      renderFocusMini(tasks);
+    }
+
+    function renderFocusBox(tasks) {
+      const box = document.getElementById('focus-box-list');
+      if (!box) return;
+      const ft = tasks.filter(t => t.focus && !t.done);
+      if (ft.length === 0) {
+        box.innerHTML = '<div class="focus-task focus-task-empty"><span class="focus-tick" style="opacity:0.35">✔</span><em>No focus tasks set — tick ☐ in Task Board to pin here</em></div>';
+      } else {
+        box.innerHTML = ft.map(t => '<div class="focus-task"><span class="focus-tick">✔</span> ' + t.text + '</div>').join('');
+      }
+    }
+
+    function renderFocusMini(tasks) {
+      const mini = document.getElementById('focus-mini-list');
+      if (!mini) return;
+      const ft = tasks.filter(t => t.focus && !t.done);
+      if (ft.length === 0) {
+        mini.innerHTML = '<div class="focus-mini-task" style="opacity:0.6"><span class="focus-tick-mini">✔</span> No focus tasks set</div>';
+      } else {
+        mini.innerHTML = ft.slice(0, 3).map(t => '<div class="focus-mini-task"><span class="focus-tick-mini">✔</span> ' + t.text + '</div>').join('');
+      }
+    }
+
+    function toggleFocus(id, checked) {
+      const tasks = getTasks();
+      const t = tasks.find(x => x.id === id);
+      if (t) t.focus = checked;
+      saveTasks(tasks);
+      renderTasks();
+    }
+
+    function renderSnapshot(tasks) {
+      const snap = document.getElementById('snapshot-list');
+      if (!snap) return;
+      const pending = tasks.filter(t => !t.done);
+      if (pending.length === 0) {
+        snap.innerHTML = '<div class="snapshot-empty">All caught up! 🎉</div>';
+      } else {
+        snap.innerHTML = pending.slice(0, 5).map(t => {
+          const pl = t.priority === 'high' ? '🔴' : t.priority === 'low' ? '🟢' : '🟡';
+          return '<div class="snapshot-mini-item">' + pl + ' ' + t.text + '</div>';
+        }).join('') + (pending.length > 5 ? '<div class="snapshot-empty">+' + (pending.length - 5) + ' more...</div>' : '');
+      }
+    }
+
+    function updateBadge(tasks) {
+      document.querySelectorAll('#task-badge, .task-badge-all').forEach(b => b.textContent = tasks.length);
+    }
+
+    function addTask() {
+      const input = document.getElementById('task-input');
+      const priority = document.getElementById('task-priority').value;
+      const text = input.value.trim();
+      if (!text) return;
+      const tasks = getTasks();
+      const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+      tasks.push({ id: newId, text, priority, done: false, focus: false });
+      saveTasks(tasks); renderTasks(); input.value = '';
+    }
+
+    function deleteTask(id) { saveTasks(getTasks().filter(t => t.id !== id)); renderTasks(); }
+
+    function toggleTask(id) {
+      const tasks = getTasks();
+      const t = tasks.find(x => x.id === id);
+      if (t) t.done = !t.done;
+      saveTasks(tasks); renderTasks();
+    }
+
+    document.addEventListener('keydown', e => {
+      const ti = document.getElementById('task-input');
+      if (e.key === 'Enter' && ti && ti === document.activeElement) addTask();
+    });
+
+
+    // ── Weekly Calendar ──
+    const CAL_DEFAULT_TIMES = ['8:00 AM','9:20 AM','10:00 AM','12:00 PM','3:00 PM','5:00 PM'];
+
+    function getCalData() {
+      const stored = localStorage.getItem('cal-data');
+      if (stored) return JSON.parse(stored);
+      return CAL_DEFAULT_TIMES.map(t => ({ time: t, cells: ['','','','','','',''], active: [false,false,false,false,false,false,false] }));
+    }
+
+    function saveCalData() {
+      const tbody = document.getElementById('cal-tbody');
+      if (!tbody) return;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      const data = rows.map(row => {
+        const timeInput = row.querySelector('.cal-time-cell');
+        const dayCells = Array.from(row.querySelectorAll('.cal-day-cell'));
+        return {
+          time: timeInput ? timeInput.value : '',
+          cells: dayCells.map(c => { const ta = c.querySelector('textarea'); return ta ? ta.value : ''; }),
+          active: dayCells.map(c => c.classList.contains('active'))
+        };
+      });
+      localStorage.setItem('cal-data', JSON.stringify(data));
+    }
+
+    function buildCalRow(rowData, rowIndex) {
+      const tr = document.createElement('tr');
+      // Time cell
+      const timeTd = document.createElement('td');
+      timeTd.style.padding = '6px 8px';
+      const timeInput = document.createElement('input');
+      timeInput.type = 'text';
+      timeInput.className = 'cal-time-cell';
+      timeInput.value = rowData.time;
+      timeInput.placeholder = 'e.g. 8:00 AM';
+      timeInput.addEventListener('change', saveCalData);
+      timeTd.appendChild(timeInput);
+      tr.appendChild(timeTd);
+      // Day cells
+      for (let d = 0; d < 7; d++) {
+        const td = document.createElement('td');
+        td.className = 'cal-day-cell' + (rowData.active[d] ? ' active' : '');
+        if (rowData.active[d]) {
+          const ta = document.createElement('textarea');
+          ta.value = rowData.cells[d] || '';
+          ta.placeholder = 'Add event...';
+          ta.addEventListener('input', saveCalData);
+          ta.addEventListener('click', e => e.stopPropagation());
+          td.appendChild(ta);
+        }
+        td.addEventListener('click', function() {
+          this.classList.toggle('active');
+          if (this.classList.contains('active')) {
+            const ta = document.createElement('textarea');
+            ta.placeholder = 'Add event...';
+            ta.addEventListener('input', saveCalData);
+            ta.addEventListener('click', e => e.stopPropagation());
+            this.appendChild(ta);
+            ta.focus();
+          } else {
+            const ta = this.querySelector('textarea');
+            if (ta) ta.remove();
+          }
+          saveCalData();
+        });
+        tr.appendChild(td);
+      }
+      return tr;
+    }
+
+    function renderCal() {
+      const tbody = document.getElementById('cal-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      const data = getCalData();
+      data.forEach((row, i) => tbody.appendChild(buildCalRow(row, i)));
+    }
+
+    function calAddRow() {
+      const data = getCalData();
+      data.push({ time: '', cells: ['','','','','','',''], active: [false,false,false,false,false,false,false] });
+      localStorage.setItem('cal-data', JSON.stringify(data));
+      renderCal();
+    }
+
+    function calRemoveRow() {
+      const data = getCalData();
+      if (data.length <= 1) return;
+      data.pop();
+      localStorage.setItem('cal-data', JSON.stringify(data));
+      renderCal();
+    }
+
+    // ── Section Navigation ──
+    function showSection(sectionId) {
+      document.querySelectorAll('.content-view').forEach(v => v.style.display = 'none');
+      document.getElementById(sectionId).style.display = 'block';
+      if (sectionId === 'tasks-section') renderTasks();
+      if (sectionId === 'schedule-section') renderCal();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+
+    // ── Settings ──
+    function saveProfile() {
+      localStorage.setItem('profile-name', document.getElementById('profile-name').value.trim());
+      localStorage.setItem('profile-year', document.getElementById('profile-year').value);
+      localStorage.setItem('profile-major', document.getElementById('profile-major').value.trim());
+      const msg = document.getElementById('profile-saved-msg');
+      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    function padTwo(n) { return String(n).padStart(2, '0'); }
+
+    function parsePomoTimeInput(hhId, mmId, ssId) {
+      const hh = parseInt(document.getElementById(hhId).value) || 0;
+      const mm = parseInt(document.getElementById(mmId).value) || 0;
+      const ss = parseInt(document.getElementById(ssId).value) || 0;
+      return hh * 3600 + mm * 60 + ss;
+    }
+
+    function savePomodoro() {
+      const studySecs = parsePomoTimeInput('pomo-study-hh','pomo-study-mm','pomo-study-ss');
+      const brkSecs = parsePomoTimeInput('pomo-break-hh','pomo-break-mm','pomo-break-ss');
+      if (studySecs <= 0) return;
+      localStorage.setItem('pomo-study-secs', studySecs);
+      localStorage.setItem('pomo-break-secs', brkSecs || 300);
+      const msg = document.getElementById('pomo-saved-msg');
+      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    function clearAllData() {
+      localStorage.clear();
+      ['profile-name','profile-year','profile-major'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+      ['pomo-study-hh','pomo-study-mm','pomo-study-ss','pomo-break-hh','pomo-break-mm','pomo-break-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+      renderTasks(); renderCal();
+      const msg = document.getElementById('clear-msg');
+      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+    }
+
+    function loadSettings() {
+      const name = localStorage.getItem('profile-name');
+      const year = localStorage.getItem('profile-year');
+      const major = localStorage.getItem('profile-major');
+      const studySecs = parseInt(localStorage.getItem('pomo-study-secs')) || 25 * 60;
+      const brkSecs = parseInt(localStorage.getItem('pomo-break-secs')) || 5 * 60;
+      if (name) document.getElementById('profile-name').value = name;
+      if (year) document.getElementById('profile-year').value = year;
+      if (major) document.getElementById('profile-major').value = major;
+      const fillTime = (hhId, mmId, ssId, secs) => {
+        document.getElementById(hhId).value = padTwo(Math.floor(secs/3600));
+        document.getElementById(mmId).value = padTwo(Math.floor((secs%3600)/60));
+        document.getElementById(ssId).value = padTwo(secs%60);
+      };
+      fillTime('pomo-study-hh','pomo-study-mm','pomo-study-ss', studySecs);
+      fillTime('pomo-break-hh','pomo-break-mm','pomo-break-ss', brkSecs);
+    }
+
+    window.addEventListener('load', () => {
+      if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+      loadSettings();
+      renderCal();
+      const _t = getTasks();
+      renderSnapshot(_t);
+      updateBadge(_t);
+      renderFocusBox(_t);
+      renderFocusMini(_t);
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'focus-zone-card' || hash === 'resources-card') {
+        showSection('schedule-section');
+        setTimeout(() => document.getElementById(hash).scrollIntoView({behavior:'smooth'}), 100);
+      } else if (hash) {
+        const target = document.getElementById(hash);
+        if (target) showSection(hash);
+      }
+    });
+  </script>
+
+</body>
+</html>
