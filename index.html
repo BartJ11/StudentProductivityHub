@@ -944,18 +944,10 @@
     let lastQuoteIdx = -1;
 
     function getQuoteOfDay() {
-      // Use date as seed for consistent daily quote
-      const today = new Date().toDateString();
-      const saved = localStorage.getItem('quote-today');
-      const savedData = saved ? JSON.parse(saved) : null;
-      if (savedData && savedData.date === today) {
-        return savedData.idx;
-      }
-      // New day — pick a new random quote
-      let idx;
-      do { idx = Math.floor(Math.random() * QUOTES.length); } while (idx === lastQuoteIdx);
-      localStorage.setItem('quote-today', JSON.stringify({ date: today, idx }));
-      return idx;
+      // Use today's date as a deterministic seed — no localStorage needed
+      const today = new Date();
+      const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+      return seed % QUOTES.length;
     }
 
     function displayQuote(idx) {
@@ -973,10 +965,12 @@
       }
     }
 
+    // Run immediately — don't wait for load event
+    displayQuote(getQuoteOfDay());
+
     window.addEventListener('load', () => {
       if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
       loadSettings();
-      displayQuote(getQuoteOfDay());
       // Clear session stats on every page load — frontend only
       localStorage.removeItem('fz-stats');
       fzReset();
