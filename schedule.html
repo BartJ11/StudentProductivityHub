@@ -49,7 +49,7 @@
           <span class="sidebar-icon">📊</span>
           <span class="sidebar-text">Analytics</span>
         </a>
-        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('schedule-section'); document.getElementById('focus-zone-card').scrollIntoView({behavior:'smooth'});">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('focus-section')">
           <span class="sidebar-icon">🎯</span>
           <span class="sidebar-text">Focus Zone</span>
         </a>
@@ -126,27 +126,7 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-          
-          <div class="card animate-3" id="focus-zone-card">
-            <div class="card-title" style="margin-bottom: 20px;">
-              <div class="card-title-icon">🎯</div>
-              Focus Zone
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="zone-mini-card" onclick="window.location.href='index.html'" style="cursor:pointer;">
-                <div class="zone-mini-icon">⏱️</div>
-                <div class="zone-mini-label">Pomodoro Timer</div>
-              </div>
-              <div class="zone-mini-card">
-                <div class="zone-mini-icon">🚫</div>
-                <div class="zone-mini-label">Website Blocker</div>
-              </div>
-            </div>
-          </div>
 
-
-        </div>
 
       </div>
 
@@ -185,10 +165,149 @@
       </div>
 
       <div id="focus-section" class="content-view" style="display: none;">
-        <div class="card animate-1">
-          <div class="card-title">🎯 Focus Zone</div>
-          <p>Tools to help you stay focused.</p>
+
+        <!-- Header -->
+        <div class="fz-page-header animate-1">
+          <div class="fz-page-icon">🎯</div>
+          <div>
+            <h2 class="fz-page-title">Focus Zone</h2>
+            <p class="fz-page-sub">Tools to help you study smarter and stay on track</p>
+          </div>
         </div>
+
+        <!-- Row 1: Pomodoro + Study Stats -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
+
+          <!-- Pomodoro Timer -->
+          <div class="focus-panel animate-2">
+            <div class="focus-panel-header">
+              <span class="focus-panel-icon">⏱️</span>
+              <span class="focus-panel-title">Pomodoro Timer</span>
+            </div>
+            <div class="focus-panel-body">
+              <div class="focus-pomo-label">
+                <span class="status-dot" id="fz-pomo-dot"></span>
+                <span id="fz-pomo-mode">Study Session</span>
+              </div>
+              <div class="focus-pomo-display">
+                <input class="fz-pomo-digit" id="fz-hh" type="text" maxlength="2" value="00" />
+                <span class="fz-pomo-colon">:</span>
+                <input class="fz-pomo-digit" id="fz-mm" type="text" maxlength="2" value="25" />
+                <span class="fz-pomo-colon">:</span>
+                <input class="fz-pomo-digit" id="fz-ss" type="text" maxlength="2" value="00" />
+              </div>
+              <div class="fz-pomo-units">
+                <span>HH</span><span></span><span>MM</span><span></span><span>SS</span>
+              </div>
+              <div class="fz-pomo-controls">
+                <button class="fz-btn fz-btn-start" id="fz-start-btn" onclick="fzStart()">▶ Start</button>
+                <button class="fz-btn fz-btn-pause" id="fz-pause-btn" onclick="fzPause()" style="display:none;">⏸ Pause</button>
+                <button class="fz-btn fz-btn-reset" onclick="fzReset()">↺ Reset</button>
+              </div>
+              <div class="fz-pomo-status" id="fz-status"></div>
+              <a href="index.html" class="fz-link">→ Customize timer duration in Home tab</a>
+            </div>
+          </div>
+
+          <!-- Session Stats -->
+          <div class="focus-panel animate-2">
+            <div class="focus-panel-header">
+              <span class="focus-panel-icon">📊</span>
+              <span class="focus-panel-title">Session Stats</span>
+            </div>
+            <div class="focus-panel-body">
+              <div class="fz-stats-grid">
+                <div class="fz-stat-box">
+                  <div class="fz-stat-num" id="fz-stat-sessions">0</div>
+                  <div class="fz-stat-label">Sessions Today</div>
+                </div>
+                <div class="fz-stat-box">
+                  <div class="fz-stat-num" id="fz-stat-mins">0</div>
+                  <div class="fz-stat-label">Time Focused</div>
+                </div>
+                <div class="fz-stat-box">
+                  <div class="fz-stat-num" id="fz-stat-streak">0</div>
+                  <div class="fz-stat-label">Day Streak</div>
+                </div>
+                <div class="fz-stat-box">
+                  <div class="fz-stat-num" id="fz-stat-tasks">0</div>
+                  <div class="fz-stat-label">Tasks Done</div>
+                </div>
+              </div>
+              <button class="fz-copy-btn" style="width:100%; text-align:center; margin-top:8px;" onclick="fzLogSession()">✚ Log Session Manually</button>
+              <button class="fz-undo-btn" onclick="fzUndoSession()">↩ Undo Last Session</button>
+              <div id="fz-log-msg" style="display:none; font-size:12px; color:#d4a017; font-weight:600; text-align:center;">✔ Session logged!</div>
+              <div id="fz-undo-msg" style="display:none; font-size:12px; color:#d4a017; font-weight:600; text-align:center;">↩ Last session undone.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Row 2: Website Blocker + Focus Tips -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+
+          <!-- Website Blocker -->
+          <div class="focus-panel animate-3">
+            <div class="focus-panel-header">
+              <span class="focus-panel-icon">🚫</span>
+              <span class="focus-panel-title">Website Blocker List</span>
+            </div>
+            <div class="focus-panel-body">
+              <p class="fz-blocker-desc">Add distracting sites to your block list. Copy and paste into BlockSite, StayFocusd, or any browser extension.</p>
+              <div class="fz-blocker-add">
+                <input type="text" id="fz-block-input" class="settings-input" placeholder="e.g. facebook.com" />
+                <button class="fz-btn fz-btn-start" onclick="fzAddBlock()">+ Add</button>
+              </div>
+              <div id="fz-block-list" class="fz-block-list"></div>
+              <div id="fz-block-empty" class="fz-block-empty">No sites added yet. Add one above!</div>
+              <div style="display:flex; gap:8px; margin-top:4px; flex-wrap:wrap;">
+                <button class="fz-copy-btn" onclick="fzCopyList()">📋 Copy List</button>
+                <button class="fz-copy-btn" style="background:linear-gradient(135deg,#3a0010,#1a0008);" onclick="fzClearBlocks()">🗑 Clear All</button>
+              </div>
+              <div id="fz-copy-msg" style="display:none; font-size:12px; color:#d4a017; font-weight:600;">✔ Copied to clipboard!</div>
+            </div>
+          </div>
+
+          <!-- Focus Tips -->
+          <div class="focus-panel animate-3">
+            <div class="focus-panel-header">
+              <span class="focus-panel-icon">💡</span>
+              <span class="focus-panel-title">Focus Tips</span>
+            </div>
+            <div class="focus-panel-body fz-tips-body">
+              <div class="fz-tip-item">
+                <span class="fz-tip-num">01</span>
+                <div>
+                  <strong>Work in 25-minute blocks</strong>
+                  <p>Use the Pomodoro technique — study for 25 mins, then take a 5-min break. Repeat 4 times, then take a longer break.</p>
+                </div>
+              </div>
+              <div class="fz-tip-item">
+                <span class="fz-tip-num">02</span>
+                <div>
+                  <strong>Silence notifications</strong>
+                  <p>Put your phone on Do Not Disturb and close unneeded browser tabs before starting a session.</p>
+                </div>
+              </div>
+              <div class="fz-tip-item">
+                <span class="fz-tip-num">03</span>
+                <div>
+                  <strong>Set a clear goal first</strong>
+                  <p>Before each session, pin one task to Today's Focus so you always know exactly what you're working on.</p>
+                </div>
+              </div>
+              <div class="fz-tip-item">
+                <span class="fz-tip-num">04</span>
+                <div>
+                  <strong>Keep water nearby</strong>
+                  <p>Staying hydrated keeps your brain alert. Avoid leaving your desk for water mid-session.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
       <div id="settings-section" class="content-view" style="display: none;">
@@ -548,9 +667,241 @@
       fillTime('pomo-break-hh','pomo-break-mm','pomo-break-ss', brkSecs);
     }
 
+    // ── Focus Zone: Pomodoro ──
+    let fzInterval = null, fzRunning = false, fzRemaining = 25*60;
+    let fzTotalSecs = 25*60;   // total secs when Start was pressed
+    let fzSecsElapsed = 0;     // secs elapsed in current run (resets on Reset)
+
+    function fzPad(n) { return String(n).padStart(2,'0'); }
+
+    function fzSetDisplay(secs) {
+      document.getElementById('fz-hh').value = fzPad(Math.floor(secs/3600));
+      document.getElementById('fz-mm').value = fzPad(Math.floor((secs%3600)/60));
+      document.getElementById('fz-ss').value = fzPad(secs%60);
+    }
+
+    function fzGetInput() {
+      return (parseInt(document.getElementById('fz-hh').value)||0)*3600 +
+             (parseInt(document.getElementById('fz-mm').value)||0)*60 +
+             (parseInt(document.getElementById('fz-ss').value)||0);
+    }
+
+    function fzStart() {
+      if (fzRunning) return;
+      fzRemaining = fzGetInput();
+      if (fzRemaining <= 0) return;
+      fzTotalSecs = fzRemaining;
+      fzRunning = true;
+      document.getElementById('fz-start-btn').style.display = 'none';
+      document.getElementById('fz-pause-btn').style.display = 'inline-block';
+      document.getElementById('fz-status').textContent = '⏳ Timer running...';
+      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = true);
+      fzInterval = setInterval(() => {
+        fzRemaining--;
+        fzSecsElapsed++;
+        fzSetDisplay(fzRemaining);
+        // Update Mins Focused in real time (every second)
+        updateLiveMins();
+        if (fzRemaining <= 0) {
+          clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+          // Auto-log a completed session when timer finishes naturally
+          fzAutoLogSession();
+          fzSecsElapsed = 0;
+          document.getElementById('fz-start-btn').style.display = 'inline-block';
+          document.getElementById('fz-start-btn').textContent = '▶ Start';
+          document.getElementById('fz-pause-btn').style.display = 'none';
+          document.getElementById('fz-status').textContent = "✅ Time's up! Session logged.";
+          ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+        }
+      }, 1000);
+    }
+
+    function fzPause() {
+      if (!fzRunning) return;
+      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      document.getElementById('fz-start-btn').style.display = 'inline-block';
+      document.getElementById('fz-start-btn').textContent = '▶ Resume';
+      document.getElementById('fz-pause-btn').style.display = 'none';
+      document.getElementById('fz-status').textContent = '⏸ Paused';
+      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+    }
+
+    function fzReset() {
+      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      fzSecsElapsed = 0;
+      const secs = parseInt(localStorage.getItem('pomo-study-secs')) || 25*60;
+      fzTotalSecs = secs; fzRemaining = secs; fzSetDisplay(secs);
+      const sb = document.getElementById('fz-start-btn');
+      if (sb) { sb.style.display = 'inline-block'; sb.textContent = '▶ Start'; }
+      const pb = document.getElementById('fz-pause-btn');
+      if (pb) pb.style.display = 'none';
+      const st = document.getElementById('fz-status');
+      if (st) st.textContent = '';
+      ['fz-hh','fz-mm','fz-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.readOnly = false; });
+    }
+
+    // Update Mins Focused live as timer ticks
+    function updateLiveMins() {
+      const stats = getStats();
+      const el = document.getElementById('fz-stat-mins');
+      if (el) {
+        // total = saved mins + elapsed secs from current run (converted to mins, rounded down)
+        const liveMins = stats.mins + Math.floor(fzSecsElapsed / 60);
+        el.textContent = liveMins;
+      }
+    }
+
+    // ── Focus Zone: Website Blocker ──
+    function getBlockList() {
+      const s = localStorage.getItem('block-list');
+      return s ? JSON.parse(s) : [];
+    }
+
+    function saveBlockList(list) { localStorage.setItem('block-list', JSON.stringify(list)); }
+
+    function renderBlockList() {
+      const list = getBlockList();
+      const container = document.getElementById('fz-block-list');
+      const empty = document.getElementById('fz-block-empty');
+      if (!container) return;
+      if (list.length === 0) {
+        container.innerHTML = '';
+        if (empty) empty.style.display = 'block';
+      } else {
+        if (empty) empty.style.display = 'none';
+        container.innerHTML = list.map((site, i) =>
+          '<div class="fz-block-item">' +
+            '<span class="fz-block-site">🔴 ' + site + '</span>' +
+            '<button class="fz-block-remove" onclick="fzRemoveBlock(' + i + ')">✕</button>' +
+          '</div>'
+        ).join('');
+      }
+    }
+
+    function fzAddBlock() {
+      const input = document.getElementById('fz-block-input');
+      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+      if (!val) return;
+      const list = getBlockList();
+      if (!list.includes(val)) { list.push(val); saveBlockList(list); }
+      renderBlockList();
+      input.value = '';
+    }
+
+    function fzRemoveBlock(i) {
+      const list = getBlockList();
+      list.splice(i, 1);
+      saveBlockList(list);
+      renderBlockList();
+    }
+
+    function fzCopyList() {
+      const list = getBlockList();
+      if (list.length === 0) return;
+      navigator.clipboard.writeText(list.join('\n')).then(() => {
+        const msg = document.getElementById('fz-copy-msg');
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      });
+    }
+
+    function fzClearBlocks() {
+      saveBlockList([]);
+      renderBlockList();
+    }
+
+    // ── Session Stats ──
+    function getStats() {
+      const today = new Date().toDateString();
+      const s = localStorage.getItem('fz-stats');
+      const data = s ? JSON.parse(s) : {};
+      // Reset completely if it's a new day or no data yet
+      if (!data.date || data.date !== today) {
+        const fresh = { date: today, sessions: 0, mins: 0, secs: 0, streak: 0, history: [] };
+        localStorage.setItem('fz-stats', JSON.stringify(fresh));
+        return fresh;
+      }
+      if (!data.history) data.history = [];
+      if (!data.secs) data.secs = 0;
+      return data;
+    }
+
+    function saveStats(data) { localStorage.setItem('fz-stats', JSON.stringify(data)); }
+
+    function renderStats() {
+      const stats = getStats();
+      const tasks = getTasks();
+      const done = tasks.filter(t => t.done).length;
+      const el = id => document.getElementById(id);
+      if (el('fz-stat-sessions')) el('fz-stat-sessions').textContent = stats.sessions;
+      if (el('fz-stat-mins')) {
+        if (fzSecsElapsed === 0) {
+          el('fz-stat-mins').textContent = '0';
+        } else {
+          const mins = Math.floor(fzSecsElapsed / 60);
+          const secs = fzSecsElapsed % 60;
+          el('fz-stat-mins').textContent = fzSecsElapsed < 60 ? secs + 's' : mins + (secs > 0 ? 'm ' + secs + 's' : 'm');
+        }
+      }
+      if (el('fz-stat-streak')) el('fz-stat-streak').textContent = stats.streak;
+      if (el('fz-stat-tasks')) el('fz-stat-tasks').textContent = done;
+    }
+
+    // Called when timer naturally finishes — auto logs session
+    function fzAutoLogSession() {
+      const stats = getStats();
+      const minsThisSession = Math.round(fzTotalSecs / 60);
+      stats.history.push({ sessions: 1, mins: minsThisSession });
+      stats.sessions += 1;
+      stats.mins += minsThisSession;
+      stats.secs = 0;
+      stats.streak = Math.max(1, stats.streak);
+      saveStats(stats);
+      renderStats();
+    }
+
+    // Manual log button — logs mins elapsed so far
+    function fzLogSession() {
+      const stats = getStats();
+      const minsThisSession = Math.max(1, Math.floor(fzSecsElapsed / 60));
+      stats.history.push({ sessions: 1, mins: minsThisSession });
+      stats.sessions += 1;
+      stats.mins += minsThisSession;
+      stats.secs = 0;
+      stats.streak = Math.max(1, stats.streak);
+      fzSecsElapsed = 0; // reset elapsed counter after logging
+      saveStats(stats);
+      renderStats();
+      const msg = document.getElementById('fz-log-msg');
+      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+    }
+
+    // Undo last logged session
+    function fzUndoSession() {
+      const stats = getStats();
+      if (!stats.history || stats.history.length === 0) return;
+      const last = stats.history.pop();
+      stats.sessions = Math.max(0, stats.sessions - last.sessions);
+      stats.mins = Math.max(0, stats.mins - last.mins);
+      saveStats(stats);
+      renderStats();
+      const msg = document.getElementById('fz-undo-msg');
+      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+    }
+
+    document.addEventListener('keydown', e => {
+      const bi = document.getElementById('fz-block-input');
+      if (e.key === 'Enter' && bi && bi === document.activeElement) fzAddBlock();
+    });
+
     window.addEventListener('load', () => {
       if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
       loadSettings();
+      // Clear session stats on every page load — frontend only, no persistence needed
+      localStorage.removeItem('fz-stats');
+      fzReset();
+      renderBlockList();
+      renderStats();
       renderCal();
       const _t = getTasks();
       renderSnapshot(_t);
@@ -559,7 +910,7 @@
       renderFocusMini(_t);
       const hash = window.location.hash.replace('#', '');
       if (hash === 'focus-zone-card') {
-        showSection('schedule-section');
+        showSection('focus-section');
         setTimeout(() => document.getElementById(hash).scrollIntoView({behavior:'smooth'}), 100);
       } else if (hash) {
         const target = document.getElementById(hash);
