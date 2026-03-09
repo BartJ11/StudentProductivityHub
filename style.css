@@ -2476,3 +2476,91 @@ body.dark-mode .fey-note-summary { color: var(--text); border-color: #f0c040; }
   font-style: italic;
 }
 body.dark-mode .fey-note-gaps { color: var(--text); opacity: 0.65; }
+
+/* ── Quote of the Day ── */
+#quote-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.quote-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 0 16px;
+  position: relative;
+}
+
+.quote-marks {
+  font-size: 72px;
+  line-height: 0.6;
+  color: var(--accent);
+  opacity: 0.18;
+  font-family: Georgia, serif;
+  font-weight: 900;
+  user-select: none;
+  margin-bottom: 8px;
+}
+
+body.dark-mode .quote-marks {
+  color: #f0c040;
+  opacity: 0.15;
+}
+
+.quote-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.7;
+  margin: 0 0 14px 0;
+  font-style: italic;
+  transition: opacity 0.2s ease;
+}
+
+body.dark-mode .quote-text { color: var(--text); }
+
+.quote-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  margin: 0;
+  transition: opacity 0.2s ease;
+}
+
+body.dark-mode .quote-author { color: #f0c040; }
+
+.quote-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f0d5d5;
+}
+
+body.dark-mode .quote-footer { border-color: #3d1010; }
+
+.quote-new-btn {
+  background: transparent;
+  border: 1px solid rgba(165,0,52,0.35);
+  color: var(--accent);
+  border-radius: 7px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.quote-new-btn:hover { background: rgba(165,0,52,0.08); }
+
+body.dark-mode .quote-new-btn {
+  color: #f0c040;
+  border-color: rgba(240,192,64,0.35);
+}
+
+body.dark-mode .quote-new-btn:hover { background: rgba(240,192,64,0.08); }
