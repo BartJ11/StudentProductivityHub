@@ -246,7 +246,7 @@
                 <button class="fz-btn fz-btn-reset" onclick="fzReset()">↺ Reset</button>
               </div>
               <div class="fz-pomo-status" id="fz-status"></div>
-              <a href="index.html" class="fz-link">→ Customize timer duration in Account Settings</a>
+              <a href="javascript:void(0)" class="fz-link" onclick="showSection('settings-section'); setTimeout(()=>document.getElementById('pomo-customization-card').scrollIntoView({behavior:'smooth',block:'start'}),100);">→ Customize timer duration in Account Settings</a>
             </div>
           </div>
 
@@ -381,7 +381,7 @@
           </div>
         </div>
 
-        <div class="card animate-2" style="margin-bottom: 24px;">
+        <div class="card animate-2" id="pomo-customization-card" style="margin-bottom: 24px;">
           <div class="card-title" style="margin-bottom: 20px;">
             <div class="card-title-icon">⏱</div>
             Pomodoro Customization
@@ -921,6 +921,9 @@
       if (hash === 'analytics-card') {
         showSection('calendar-section');
         setTimeout(() => document.getElementById('analytics-card').scrollIntoView({behavior:'smooth'}), 100);
+      } else if (hash === 'pomo-customization-card') {
+        showSection('settings-section');
+        setTimeout(() => document.getElementById('pomo-customization-card').scrollIntoView({behavior:'smooth', block:'start'}), 100);
       } else if (hash === 'tasks-section') {
         showSection('tasks-section');
       } else if (hash) {
