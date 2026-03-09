@@ -2478,52 +2478,39 @@ body.dark-mode .fey-note-summary { color: var(--text); border-color: #f0c040; }
 body.dark-mode .fey-note-gaps { color: var(--text); opacity: 0.65; }
 
 
+
 /* ── Quote of the Day ── */
 #quote-card {
   display: flex;
   flex-direction: column;
-  background: linear-gradient(145deg, #fff5f5 0%, #fde8e8 100%);
-  border: 1px solid #f0c0c0;
-  overflow: hidden;
   padding: 0;
-}
-
-body.dark-mode #quote-card {
-  background: linear-gradient(145deg, #2a0808 0%, #1a0404 100%);
-  border-color: #4a1010;
+  overflow: hidden;
+  background: linear-gradient(150deg, #7a001e 0%, #3d0010 100%);
+  border: none;
+  min-height: 220px;
 }
 
 .quote-top-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid rgba(165, 0, 52, 0.12);
-  background: rgba(165, 0, 52, 0.04);
-}
-
-body.dark-mode .quote-top-bar {
-  border-color: rgba(240,192,64,0.1);
-  background: rgba(240,192,64,0.03);
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .quote-day-label {
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.75);
 }
-
-body.dark-mode .quote-day-label { color: #f0c040; }
 
 .quote-top-bar .toggle-wrap {
   font-size: 12px;
-  color: #884444;
+  color: rgba(255,255,255,0.7);
   gap: 8px;
 }
-
-body.dark-mode .quote-top-bar .toggle-wrap { color: var(--text); opacity: 0.8; }
 
 .quote-body {
   flex: 1;
@@ -2531,71 +2518,59 @@ body.dark-mode .quote-top-bar .toggle-wrap { color: var(--text); opacity: 0.8; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px 28px 28px;
+  padding: 20px 28px 24px;
   text-align: center;
-  position: relative;
 }
 
-.quote-open-mark,
-.quote-close-mark {
-  font-size: 52px;
-  line-height: 1;
+.quote-open-mark {
+  font-size: 56px;
+  line-height: 0.8;
   font-family: Georgia, 'Times New Roman', serif;
   font-weight: 900;
-  color: var(--accent);
-  opacity: 0.22;
+  color: rgba(255,255,255,0.2);
   user-select: none;
   align-self: flex-start;
-}
-
-body.dark-mode .quote-open-mark,
-body.dark-mode .quote-close-mark {
-  color: #f0c040;
-  opacity: 0.2;
+  margin-bottom: 4px;
 }
 
 .quote-close-mark {
+  font-size: 56px;
+  line-height: 0.8;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 900;
+  color: rgba(255,255,255,0.2);
+  user-select: none;
   align-self: flex-end;
-  margin-top: -12px;
+  margin-top: -4px;
 }
 
 .quote-text {
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 600;
   line-height: 1.75;
-  margin: 8px 0 16px;
+  margin: 4px 0 18px;
   font-style: italic;
-  color: #2a0808;
-  transition: opacity 0.25s ease;
-}
-
-body.dark-mode .quote-text {
-  color: #f5e0e0;
+  color: #ffffff;
 }
 
 .quote-divider {
-  width: 40px;
-  height: 3px;
-  background: var(--accent);
+  width: 36px;
+  height: 2px;
+  background: rgba(255,255,255,0.35);
   border-radius: 2px;
-  margin: 0 auto 14px;
-  opacity: 0.5;
-}
-
-body.dark-mode .quote-divider {
-  background: #f0c040;
+  margin: 0 auto 12px;
 }
 
 .quote-author {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  color: var(--accent);
-  letter-spacing: 1px;
+  color: #f0c040;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   margin: 0;
-  transition: opacity 0.25s ease;
 }
 
-body.dark-mode .quote-author {
-  color: #f0c040;
+/* Dark mode — slightly lighter gradient, same white text stays readable */
+body.dark-mode #quote-card {
+  background: linear-gradient(150deg, #5a0018 0%, #2a0008 100%);
 }
