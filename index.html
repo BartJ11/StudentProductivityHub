@@ -98,17 +98,17 @@
         </div>
 
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
-          <div id="quote-card" class="animate-2">
-            <div class="quote-label-row">✨ Quote of the Day</div>
-            <div class="quote-body">
-              <div class="quote-open-mark">"</div>
-              <p class="quote-text" id="quote-text">Loading...</p>
-              <div class="quote-close-mark">"</div>
-              <div class="quote-divider"></div>
-              <p class="quote-author" id="quote-author"></p>
+          <div id="quote-card" class="animate-2" style="border-radius:16px; overflow:hidden; background:linear-gradient(150deg,#7a001e 0%,#3d0010 100%); box-shadow:0 4px 20px rgba(122,0,30,0.4); display:flex; flex-direction:column; min-height:220px;">
+            <div style="padding:12px 20px 10px; font-size:10px; font-weight:800; letter-spacing:1.4px; text-transform:uppercase; color:rgba(255,255,255,0.6); border-bottom:1px solid rgba(255,255,255,0.1);">✨ Quote of the Day</div>
+            <div style="flex:1; display:flex; flex-direction:column; padding:16px 24px 12px;">
+              <div style="font-size:60px; line-height:0.75; font-family:Georgia,serif; font-weight:900; color:rgba(255,255,255,0.15); user-select:none; margin-bottom:8px;">"</div>
+              <p id="quote-text" style="font-size:14px; font-weight:500; line-height:1.85; color:#ffffff; font-style:italic; margin:0 0 14px 0; flex:1;">Loading...</p>
+              <div style="font-size:60px; line-height:0.5; font-family:Georgia,serif; font-weight:900; color:rgba(255,255,255,0.15); user-select:none; text-align:right; margin-bottom:10px;">"</div>
+              <div style="width:32px; height:2px; background:#f0c040; border-radius:2px; margin-bottom:10px; opacity:0.8;"></div>
+              <p id="quote-author" style="font-size:11px; font-weight:800; color:#f0c040; letter-spacing:1.2px; text-transform:uppercase; margin:0;"></p>
             </div>
-            <div class="quote-darkmode-row">
-              <div class="toggle-wrap" onclick="toggleDarkMode()">
+            <div style="padding:10px 20px 14px; border-top:1px solid rgba(255,255,255,0.1);">
+              <div class="toggle-wrap" onclick="toggleDarkMode()" style="color:rgba(255,255,255,0.65); font-size:12px; gap:8px;">
                 <div class="toggle-track"><div class="toggle-thumb"></div></div>
                 <span>Dark Mode</span>
               </div>
@@ -963,8 +963,14 @@
       const q = QUOTES[idx];
       const textEl = document.getElementById('quote-text');
       const authorEl = document.getElementById('quote-author');
-      if (textEl) textEl.textContent = q.text;
-      if (authorEl) authorEl.textContent = '— ' + q.author;
+      if (textEl) {
+        textEl.textContent = q.text;
+        textEl.style.cssText = 'font-size:14px;font-weight:500;line-height:1.85;color:#ffffff;font-style:italic;margin:0 0 14px 0;flex:1;';
+      }
+      if (authorEl) {
+        authorEl.textContent = '— ' + q.author;
+        authorEl.style.cssText = 'font-size:11px;font-weight:800;color:#f0c040;letter-spacing:1.2px;text-transform:uppercase;margin:0;';
+      }
     }
 
     window.addEventListener('load', () => {
