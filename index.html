@@ -963,16 +963,8 @@
       const q = QUOTES[idx];
       const textEl = document.getElementById('quote-text');
       const authorEl = document.getElementById('quote-author');
-      if (textEl) {
-        textEl.style.opacity = '0';
-        authorEl.style.opacity = '0';
-        setTimeout(() => {
-          textEl.textContent = q.text;
-          authorEl.textContent = '— ' + q.author;
-          textEl.style.opacity = '1';
-          authorEl.style.opacity = '1';
-        }, 200);
-      }
+      if (textEl) textEl.textContent = q.text;
+      if (authorEl) authorEl.textContent = '— ' + q.author;
     }
 
     window.addEventListener('load', () => {
