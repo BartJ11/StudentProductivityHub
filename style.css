@@ -2481,96 +2481,93 @@ body.dark-mode .fey-note-gaps { color: var(--text); opacity: 0.65; }
 
 /* ── Quote of the Day ── */
 #quote-card {
-  display: flex;
-  flex-direction: column;
-  padding: 0;
+  border-radius: 16px;
   overflow: hidden;
   background: linear-gradient(150deg, #7a001e 0%, #3d0010 100%);
-  border: none;
+  box-shadow: 0 4px 20px rgba(122, 0, 30, 0.35);
+  display: flex;
+  flex-direction: column;
   min-height: 220px;
 }
 
-.quote-top-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+body.dark-mode #quote-card {
+  background: linear-gradient(150deg, #5a0018 0%, #250008 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
 }
 
-.quote-day-label {
-  font-size: 11px;
+.quote-label-row {
+  padding: 12px 20px 10px;
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 1.2px;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.quote-top-bar .toggle-wrap {
-  font-size: 12px;
-  color: rgba(255,255,255,0.7);
-  gap: 8px;
+  color: rgba(255, 255, 255, 0.55);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .quote-body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 28px 24px;
-  text-align: center;
+  padding: 16px 24px 12px;
 }
 
 .quote-open-mark {
-  font-size: 56px;
-  line-height: 0.8;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 64px;
+  line-height: 0.75;
+  font-family: Georgia, serif;
   font-weight: 900;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255, 255, 255, 0.15);
   user-select: none;
-  align-self: flex-start;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .quote-close-mark {
-  font-size: 56px;
-  line-height: 0.8;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 64px;
+  line-height: 0.5;
+  font-family: Georgia, serif;
   font-weight: 900;
-  color: rgba(255,255,255,0.2);
+  color: rgba(255, 255, 255, 0.15);
   user-select: none;
-  align-self: flex-end;
-  margin-top: -4px;
+  text-align: right;
+  margin-top: 2px;
 }
 
 .quote-text {
-  font-size: 14.5px;
-  font-weight: 600;
-  line-height: 1.75;
-  margin: 4px 0 18px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.8;
+  color: #ffffff !important;
   font-style: italic;
-  color: #ffffff;
+  margin: 0 0 12px 0;
+  flex: 1;
 }
 
 .quote-divider {
-  width: 36px;
+  width: 32px;
   height: 2px;
-  background: rgba(255,255,255,0.35);
+  background: #f0c040;
   border-radius: 2px;
-  margin: 0 auto 12px;
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
 
 .quote-author {
   font-size: 11px;
   font-weight: 800;
-  color: #f0c040;
+  color: #f0c040 !important;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  margin: 0;
+  margin: 0 0 4px 0;
 }
 
-/* Dark mode — slightly lighter gradient, same white text stays readable */
-body.dark-mode #quote-card {
-  background: linear-gradient(150deg, #5a0018 0%, #2a0008 100%);
+.quote-darkmode-row {
+  padding: 10px 20px 14px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.quote-darkmode-row .toggle-wrap {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  gap: 8px;
 }
