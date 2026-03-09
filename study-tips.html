@@ -53,10 +53,6 @@
           <span class="sidebar-icon">🎯</span>
           <span class="sidebar-text">Focus Zone</span>
         </a>
-        <a href="schedule.html#resources-card" class="sidebar-item">
-          <span class="sidebar-icon">📚</span>
-          <span class="sidebar-text">Resource Library</span>
-        </a>
         <span class="sidebar-group-label" style="margin-top:12px">Account</span>
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('settings-section')">
           <span class="sidebar-icon">⚙️</span>
@@ -117,12 +113,12 @@
         <div class="section-title animate-4">Templates &amp; Guides</div>
 
         <div class="templates-list">
-          <div class="template-item animate-4">
+          <div class="template-item animate-4" onclick="openPDF('Outline_Template.pdf','Essay Outline Template')" style="cursor:pointer;">
             <div class="template-file-icon">📄</div>
             <span class="template-name">Essay Outline Template</span>
             <span class="template-arrow">→</span>
           </div>
-          <div class="template-item animate-5">
+          <div class="template-item animate-5" onclick="openPDF('Cornell_Note_Taking.pdf','Cornell Notes PDF Guide')" style="cursor:pointer;">
             <div class="template-file-icon">📖</div>
             <span class="template-name">Cornell Notes PDF Guide</span>
             <span class="template-arrow">→</span>
@@ -168,13 +164,6 @@
         <div class="card animate-1">
           <div class="card-title">🎯 Focus Zone</div>
           <p>Focus timers and blockers.</p>
-        </div>
-      </div>
-
-      <div id="resources-section" class="content-view" style="display: none;">
-        <div class="card animate-1">
-          <div class="card-title">📚 Resource Library</div>
-          <p>Study templates and documentation.</p>
         </div>
       </div>
 
@@ -444,5 +433,33 @@
     });
   </script>
 
+
+  <!-- PDF Viewer Modal -->
+  <div id="pdf-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); z-index:9999; flex-direction:column; align-items:center; justify-content:center;">
+    <div style="background:#1c0808; border-radius:12px; width:90%; max-width:900px; height:85vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 8px 40px rgba(0,0,0,0.6);">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid #3d1010;">
+        <span id="pdf-modal-title" style="color:white; font-weight:700; font-size:16px;"></span>
+        <button onclick="closePDF()" style="background:#a50034; color:white; border:none; border-radius:8px; padding:6px 16px; font-size:14px; font-weight:700; cursor:pointer;">✕ Close</button>
+      </div>
+      <iframe id="pdf-frame" src="" style="flex:1; border:none; background:white;"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function openPDF(file, title) {
+      document.getElementById('pdf-modal-title').textContent = title;
+      document.getElementById('pdf-frame').src = file;
+      const modal = document.getElementById('pdf-modal');
+      modal.style.display = 'flex';
+    }
+    function closePDF() {
+      const modal = document.getElementById('pdf-modal');
+      modal.style.display = 'none';
+      document.getElementById('pdf-frame').src = '';
+    }
+    document.getElementById('pdf-modal').addEventListener('click', function(e) {
+      if (e.target === this) closePDF();
+    });
+  </script>
 </body>
 </html>

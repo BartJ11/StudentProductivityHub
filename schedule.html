@@ -53,10 +53,6 @@
           <span class="sidebar-icon">🎯</span>
           <span class="sidebar-text">Focus Zone</span>
         </a>
-        <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('schedule-section'); document.getElementById('resources-card').scrollIntoView({behavior:'smooth'});">
-          <span class="sidebar-icon">📚</span>
-          <span class="sidebar-text">Resource Library</span>
-        </a>
         <span class="sidebar-group-label" style="margin-top:12px">Account</span>
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('settings-section')">
           <span class="sidebar-icon">⚙️</span>
@@ -149,22 +145,6 @@
             </div>
           </div>
 
-          <div class="card animate-4" id="resources-card">
-            <div class="card-title" style="margin-bottom: 20px;">
-              <div class="card-title-icon">📚</div>
-              Resources
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="zone-mini-card">
-                <div class="zone-mini-icon">📄</div>
-                <div class="zone-mini-label">Study Templates</div>
-              </div>
-              <div class="zone-mini-card">
-                <div class="zone-mini-icon">📖</div>
-                <div class="zone-mini-label">Exam Prep</div>
-              </div>
-            </div>
-          </div>
 
         </div>
 
@@ -208,13 +188,6 @@
         <div class="card animate-1">
           <div class="card-title">🎯 Focus Zone</div>
           <p>Tools to help you stay focused.</p>
-        </div>
-      </div>
-
-      <div id="resources-section" class="content-view" style="display: none;">
-        <div class="card animate-1">
-          <div class="card-title">📚 Resource Library</div>
-          <p>Templates and study materials.</p>
         </div>
       </div>
 
@@ -585,7 +558,7 @@
       renderFocusBox(_t);
       renderFocusMini(_t);
       const hash = window.location.hash.replace('#', '');
-      if (hash === 'focus-zone-card' || hash === 'resources-card') {
+      if (hash === 'focus-zone-card') {
         showSection('schedule-section');
         setTimeout(() => document.getElementById(hash).scrollIntoView({behavior:'smooth'}), 100);
       } else if (hash) {
