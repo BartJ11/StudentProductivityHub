@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Productivity Hub – Contact</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="topbar">
+    <div class="topbar-left">
+      <button class="back-btn" onclick="history.back()">←</button>
+      <span class="site-title">Student <span>Productivity</span> Hub</span>
+    </div>
+    <div class="topbar-nav">
+      <a href="index.html">Home</a>
+      <a href="study-tips.html">Study Tips</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-bar" type="text" placeholder="Search" />
+    </div>
+  </nav>
+
+  <div class="main-layout">
+
+    <aside class="sidebar">
+
+      <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input" />
+
+      <label for="sidebar-toggle" class="sidebar-toggle-btn">
+        <span class="arrow-icon">→</span>
+      </label>
+
+      <div class="sidebar-collapsed">
+        <span class="sidebar-group-label">Navigation</span>
+        <a href="schedule.html" class="sidebar-item">
+          <span class="sidebar-icon">📅</span>
+          <span class="sidebar-text">Weekly Calendar</span>
+        </a>
+        <a href="index.html#tasks-section" class="sidebar-item">
+          <span class="sidebar-icon">📋</span>
+          <span class="sidebar-text">Task Board</span>
+        </a>
+        <a href="index.html#analytics-card" class="sidebar-item">
+          <span class="sidebar-icon">📊</span>
+          <span class="sidebar-text">Analytics</span>
+        </a>
+        <a href="index.html" class="sidebar-item">
+          <span class="sidebar-icon">🎯</span>
+          <span class="sidebar-text">Focus Zone</span>
+        </a>
+        <span class="sidebar-group-label" style="margin-top:12px">Account</span>
+        <a href="index.html" class="sidebar-item">
+          <span class="sidebar-icon">⚙️</span>
+          <span class="sidebar-text">Account Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-expanded">
+        <div class="focus-mini">
+          <div class="focus-mini-header">
+            <span class="focus-check-mini">✓</span> Today's Focus
+          </div>
+          <div id="focus-mini-list">
+            <div class="focus-mini-task"><span class="focus-tick-mini">✔</span> No focus tasks set</div>
+          </div>
+        </div>
+
+        <div class="sidebar-links">
+          <a href="index.html" class="sidebar-link">Pomodoro Timer</a>
+          <a href="javascript:void(0)" class="sidebar-link" onclick="toggleDarkMode()">Dark Mode</a>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="content">
+
+      <div class="contact-page-header animate-1">
+        <h1>Contact Us</h1>
+        <p>Have a question, suggestion, or feedback? We'd love to hear from you.</p>
+      </div>
+
+      <div class="contact-grid">
+
+        <!-- Left: Info Card -->
+        <div class="contact-info-card animate-2">
+          <div>
+            <div class="contact-info-title">Get in Touch</div>
+            <p class="contact-info-sub">Fill out the form and we'll get back to you as soon as possible. Your messages are saved locally in your browser.</p>
+          </div>
+
+          <hr class="contact-divider" />
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">📧</div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value">studentproductivityhub@email.com</div>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">🏫</div>
+            <div>
+              <div class="contact-info-label">School / Institution</div>
+              <div class="contact-info-value">Student Productivity Hub<br/>Academic Tools Division</div>
+            </div>
+          </div>
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">🕐</div>
+            <div>
+              <div class="contact-info-label">Response Time</div>
+              <div class="contact-info-value">Usually within 1–2 school days</div>
+            </div>
+          </div>
+
+          <hr class="contact-divider" />
+
+          <div class="contact-info-item">
+            <div class="contact-info-icon">💡</div>
+            <div>
+              <div class="contact-info-label">Tip</div>
+              <div class="contact-info-value">Use the Study Tips page to explore Active Recall, Spaced Repetition, and the Feynman Technique.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Contact Form -->
+        <div class="contact-form-card animate-3">
+          <div class="contact-form-title">
+            <div class="contact-form-title-icon">✉️</div>
+            Send a Message
+          </div>
+
+          <div class="cf-row">
+            <div class="cf-field">
+              <label class="cf-label" for="cf-firstname">First Name <span style="color:var(--accent)">*</span></label>
+              <input type="text" id="cf-firstname" class="cf-input" placeholder="e.g. Juan" maxlength="50" />
+              <span class="cf-error-msg" id="cf-firstname-err">First name is required.</span>
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-lastname">Last Name <span style="color:var(--accent)">*</span></label>
+              <input type="text" id="cf-lastname" class="cf-input" placeholder="e.g. Dela Cruz" maxlength="50" />
+              <span class="cf-error-msg" id="cf-lastname-err">Last name is required.</span>
+            </div>
+          </div>
+
+          <div class="cf-row">
+            <div class="cf-field">
+              <label class="cf-label" for="cf-email">Email Address <span style="color:var(--accent)">*</span></label>
+              <input type="email" id="cf-email" class="cf-input" placeholder="e.g. juan@email.com" maxlength="100" />
+              <span class="cf-error-msg" id="cf-email-err">Please enter a valid email address.</span>
+            </div>
+            <div class="cf-field">
+              <label class="cf-label" for="cf-year">Year Level</label>
+              <select id="cf-year" class="cf-input cf-select">
+                <option value="">Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="5th Year">5th Year</option>
+                <option value="Graduate">Graduate</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="cf-field">
+            <label class="cf-label" for="cf-topic">Topic / Category <span style="color:var(--accent)">*</span></label>
+            <select id="cf-topic" class="cf-input cf-select">
+              <option value="">Select a topic...</option>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Bug Report">Bug Report</option>
+              <option value="Feature Request">Feature Request</option>
+              <option value="Study Tips Feedback">Study Tips Feedback</option>
+              <option value="Schedule / Planner">Schedule / Planner</option>
+              <option value="Pomodoro Timer">Pomodoro Timer</option>
+              <option value="Other">Other</option>
+            </select>
+            <span class="cf-error-msg" id="cf-topic-err">Please select a topic.</span>
+          </div>
+
+          <div class="cf-field">
+            <label class="cf-label" for="cf-subject">Subject <span style="color:var(--accent)">*</span></label>
+            <input type="text" id="cf-subject" class="cf-input" placeholder="Brief subject of your message" maxlength="100" />
+            <span class="cf-error-msg" id="cf-subject-err">Subject is required.</span>
+          </div>
+
+          <div class="cf-field">
+            <label class="cf-label" for="cf-message">Message <span style="color:var(--accent)">*</span></label>
+            <textarea id="cf-message" class="cf-input cf-textarea" placeholder="Write your message here..." maxlength="1000" oninput="cfUpdateCharCount()"></textarea>
+            <div class="cf-char-count" id="cf-char-count">0 / 1000</div>
+            <span class="cf-error-msg" id="cf-message-err">Message is required.</span>
+          </div>
+
+          <div class="cf-submit-row">
+            <button class="cf-submit-btn" onclick="cfSubmit()">📨 Send Message</button>
+            <button class="settings-save-btn" style="background:transparent; color:#884444; border:1.5px solid #f0d5d5; box-shadow:none;" onclick="cfReset()">↺ Clear Form</button>
+          </div>
+
+          <div class="cf-success-msg" id="cf-success-msg">
+            ✅ Your message has been sent! We'll get back to you soon.
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Submitted Messages Log -->
+      <div class="contact-submissions-card animate-4" id="cf-submissions-card" style="display:none;">
+        <div class="contact-submissions-title">
+          <span style="font-size:20px">📬</span>
+          Submitted Messages
+          <span id="cf-sub-count-badge" class="ar-count-badge">0</span>
+          <button class="cf-sub-delete" style="margin-left:auto; font-size:12px; padding:4px 12px; border:1.5px solid #f0d5d5; border-radius:6px;" onclick="cfClearAll()">🗑 Clear All</button>
+        </div>
+        <div id="cf-submissions-list"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer>@ 2026 Student Productivity Hub</footer>
+
+  <script>
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+
+    // ── Character counter ──
+    function cfUpdateCharCount() {
+      const msg = document.getElementById('cf-message');
+      const count = document.getElementById('cf-char-count');
+      if (msg && count) count.textContent = msg.value.length + ' / 1000';
+    }
+
+    // ── Validation helpers ──
+    function cfValidateField(inputId, errId, condition) {
+      const input = document.getElementById(inputId);
+      const err = document.getElementById(errId);
+      if (!condition) {
+        input.classList.add('cf-invalid');
+        if (err) err.style.display = 'block';
+        return false;
+      } else {
+        input.classList.remove('cf-invalid');
+        if (err) err.style.display = 'none';
+        return true;
+      }
+    }
+
+    function cfIsValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // ── Submit ──
+    function cfSubmit() {
+      const firstname = document.getElementById('cf-firstname').value.trim();
+      const lastname  = document.getElementById('cf-lastname').value.trim();
+      const email     = document.getElementById('cf-email').value.trim();
+      const topic     = document.getElementById('cf-topic').value;
+      const subject   = document.getElementById('cf-subject').value.trim();
+      const message   = document.getElementById('cf-message').value.trim();
+
+      const v1 = cfValidateField('cf-firstname', 'cf-firstname-err', firstname.length > 0);
+      const v2 = cfValidateField('cf-lastname',  'cf-lastname-err',  lastname.length > 0);
+      const v3 = cfValidateField('cf-email',     'cf-email-err',     cfIsValidEmail(email));
+      const v4 = cfValidateField('cf-topic',     'cf-topic-err',     topic.length > 0);
+      const v5 = cfValidateField('cf-subject',   'cf-subject-err',   subject.length > 0);
+      const v6 = cfValidateField('cf-message',   'cf-message-err',   message.length > 0);
+
+      if (!v1 || !v2 || !v3 || !v4 || !v5 || !v6) return;
+
+      const year = document.getElementById('cf-year').value;
+
+      const submission = {
+        id: Date.now(),
+        firstname, lastname, email, year, topic, subject, message,
+        date: new Date().toLocaleString()
+      };
+
+      const all = cfGetSubmissions();
+      all.unshift(submission);
+      localStorage.setItem('cf-submissions', JSON.stringify(all));
+
+      cfRenderSubmissions();
+
+      // Show success
+      const succ = document.getElementById('cf-success-msg');
+      succ.style.display = 'flex';
+      setTimeout(() => succ.style.display = 'none', 4000);
+
+      // Clear form
+      ['cf-firstname','cf-lastname','cf-email','cf-subject','cf-message'].forEach(id => {
+        document.getElementById(id).value = '';
+        document.getElementById(id).classList.remove('cf-invalid');
+      });
+      document.getElementById('cf-year').value = '';
+      document.getElementById('cf-topic').value = '';
+      document.getElementById('cf-char-count').textContent = '0 / 1000';
+    }
+
+    // ── Reset form ──
+    function cfReset() {
+      ['cf-firstname','cf-lastname','cf-email','cf-subject','cf-message'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = ''; el.classList.remove('cf-invalid'); }
+      });
+      ['cf-firstname-err','cf-lastname-err','cf-email-err','cf-topic-err','cf-subject-err','cf-message-err'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      document.getElementById('cf-year').value = '';
+      document.getElementById('cf-topic').value = '';
+      document.getElementById('cf-char-count').textContent = '0 / 1000';
+    }
+
+    // ── Submissions storage ──
+    function cfGetSubmissions() {
+      const s = localStorage.getItem('cf-submissions');
+      return s ? JSON.parse(s) : [];
+    }
+
+    function cfDeleteSubmission(id) {
+      const all = cfGetSubmissions().filter(s => s.id !== id);
+      localStorage.setItem('cf-submissions', JSON.stringify(all));
+      cfRenderSubmissions();
+    }
+
+    function cfClearAll() {
+      localStorage.removeItem('cf-submissions');
+      cfRenderSubmissions();
+    }
+
+    function cfRenderSubmissions() {
+      const all = cfGetSubmissions();
+      const card = document.getElementById('cf-submissions-card');
+      const list = document.getElementById('cf-submissions-list');
+      const badge = document.getElementById('cf-sub-count-badge');
+
+      if (!card || !list) return;
+
+      if (all.length === 0) {
+        card.style.display = 'none';
+        return;
+      }
+
+      card.style.display = 'block';
+      if (badge) badge.textContent = all.length;
+
+      list.innerHTML = all.map(s =>
+        '<div class="cf-submission-item">' +
+          '<div class="cf-sub-header">' +
+            '<span class="cf-sub-name">' + s.firstname + ' ' + s.lastname + (s.year ? ' <span style="font-weight:400;font-size:12px;color:#884444;">· ' + s.year + '</span>' : '') + '</span>' +
+            '<span class="cf-sub-topic">' + s.topic + '</span>' +
+            '<button class="cf-sub-delete" onclick="cfDeleteSubmission(' + s.id + ')">✕</button>' +
+          '</div>' +
+          '<div class="cf-sub-email">📧 ' + s.email + '</div>' +
+          '<div class="cf-sub-message"><strong>' + s.subject + '</strong><br/>' + s.message + '</div>' +
+          '<div class="cf-sub-date">🕐 ' + s.date + '</div>' +
+        '</div>'
+      ).join('');
+    }
+
+    // ── Live validation on blur ──
+    document.addEventListener('DOMContentLoaded', () => {
+      if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+      cfRenderSubmissions();
+
+      document.getElementById('cf-firstname').addEventListener('blur', function() {
+        cfValidateField('cf-firstname', 'cf-firstname-err', this.value.trim().length > 0);
+      });
+      document.getElementById('cf-lastname').addEventListener('blur', function() {
+        cfValidateField('cf-lastname', 'cf-lastname-err', this.value.trim().length > 0);
+      });
+      document.getElementById('cf-email').addEventListener('blur', function() {
+        cfValidateField('cf-email', 'cf-email-err', cfIsValidEmail(this.value.trim()));
+      });
+      document.getElementById('cf-topic').addEventListener('blur', function() {
+        cfValidateField('cf-topic', 'cf-topic-err', this.value.length > 0);
+      });
+      document.getElementById('cf-subject').addEventListener('blur', function() {
+        cfValidateField('cf-subject', 'cf-subject-err', this.value.trim().length > 0);
+      });
+      document.getElementById('cf-message').addEventListener('blur', function() {
+        cfValidateField('cf-message', 'cf-message-err', this.value.trim().length > 0);
+      });
+    });
+
+  </script>
+
+</body>
+</html>

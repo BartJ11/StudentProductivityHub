@@ -17,6 +17,7 @@
       <a href="index.html" class="active">Home</a>
       <a href="study-tips.html">Study Tips</a>
       <a href="schedule.html">Schedule</a>
+      <a href="contact.html">Contact</a>
     </div>
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
@@ -27,9 +28,9 @@
   <div class="main-layout">
 
     <aside class="sidebar">
-      
+
       <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input" />
-      
+
       <label for="sidebar-toggle" class="sidebar-toggle-btn">
         <span class="arrow-icon">→</span>
       </label>
@@ -43,7 +44,7 @@
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('tasks-section')">
           <span class="sidebar-icon">📋</span>
           <span class="sidebar-text">Task Board</span>
-          <span class="sidebar-badge" id="task-badge">2</span>
+          <span class="sidebar-badge" id="task-badge">0</span>
         </a>
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('calendar-section'); document.getElementById('analytics-card').scrollIntoView({behavior:'smooth'});">
           <span class="sidebar-icon">📊</span>
@@ -177,7 +178,7 @@
 
       <div id="focus-section" class="content-view" style="display: none;">
 
-        <!-- Header -->
+
         <div class="fz-page-header animate-1">
           <div class="fz-page-icon">🎯</div>
           <div>
@@ -186,10 +187,10 @@
           </div>
         </div>
 
-        <!-- Row 1: Pomodoro + Study Stats -->
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
 
-          <!-- Pomodoro Timer -->
+
           <div class="focus-panel animate-2">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">⏱️</span>
@@ -220,7 +221,7 @@
             </div>
           </div>
 
-          <!-- Session Stats -->
+
           <div class="focus-panel animate-2">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">📊</span>
@@ -254,10 +255,10 @@
 
         </div>
 
-        <!-- Row 2: Website Blocker + Focus Tips -->
+
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
 
-          <!-- Website Blocker -->
+
           <div class="focus-panel animate-3">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">🚫</span>
@@ -279,7 +280,7 @@
             </div>
           </div>
 
-          <!-- Focus Tips -->
+
           <div class="focus-panel animate-3">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">💡</span>
@@ -401,18 +402,16 @@
   <footer>@ 2026 Student Productivity Hub</footer>
 
   <script>
-    // ── Task Data ──
-    const DEFAULT_TASKS = [
-      { id: 1, text: '2 High Priority Tasks', priority: 'high', done: false, focus: false },
-      { id: 2, text: '1 Exam This Week', priority: 'high', done: false, focus: false }
-    ];
+
     function getTasks() {
       const s = localStorage.getItem('tasks');
-      return s ? JSON.parse(s) : DEFAULT_TASKS;
+      return s ? JSON.parse(s) : [];
     }
-    function saveTasks(t) { localStorage.setItem('tasks', JSON.stringify(t)); }
+    function saveTasks(t) {
+      localStorage.setItem('tasks', JSON.stringify(t));
+    }
 
-    // ── Render Task Board ──
+
     function renderTasks() {
       const tasks = getTasks();
       const list = document.getElementById('task-list');
@@ -446,7 +445,7 @@
       renderFocusMini(tasks);
     }
 
-    // ── Today's Focus Rendering ──
+
     function renderFocusBox(tasks) {
       const box = document.getElementById('focus-box-list');
       if (!box) return;
@@ -477,7 +476,7 @@
       renderTasks();
     }
 
-    // ── Snapshot ──
+
     function renderSnapshot(tasks) {
       const snap = document.getElementById('snapshot-list');
       if (!snap) return;
@@ -504,16 +503,22 @@
       const tasks = getTasks();
       const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
       tasks.push({ id: newId, text, priority, done: false, focus: false });
-      saveTasks(tasks); renderTasks(); input.value = '';
+      saveTasks(tasks);
+      renderTasks();
+      input.value = '';
     }
 
-    function deleteTask(id) { saveTasks(getTasks().filter(t => t.id !== id)); renderTasks(); }
+    function deleteTask(id) {
+      saveTasks(getTasks().filter(t => t.id !== id));
+      renderTasks();
+    }
 
     function toggleTask(id) {
       const tasks = getTasks();
       const t = tasks.find(x => x.id === id);
       if (t) t.done = !t.done;
-      saveTasks(tasks); renderTasks();
+      saveTasks(tasks);
+      renderTasks();
     }
 
     document.addEventListener('keydown', e => {
@@ -521,70 +526,113 @@
       if (e.key === 'Enter' && ti && ti === document.activeElement) addTask();
     });
 
-    // ── Pomodoro Timer ──
-    let pomoInterval = null, pomoRunning = false, pomoRemaining = 25*60, pomoTotalSeconds = 25*60;
+
+    let pomoInterval = null;
+    let pomoRunning = false;
+    let pomoRemaining = 25 * 60;
+    let pomoTotalSeconds = 25 * 60;
 
     function padTwo(n) { return String(n).padStart(2, '0'); }
 
     function getPomoInputSeconds() {
-      return (parseInt(document.getElementById('pomo-hh').value)||0)*3600 +
-             (parseInt(document.getElementById('pomo-mm').value)||0)*60 +
-             (parseInt(document.getElementById('pomo-ss').value)||0);
+      return (parseInt((document.getElementById('pomo-hh')||{}).value)||0)*3600 +
+             (parseInt((document.getElementById('pomo-mm')||{}).value)||0)*60 +
+             (parseInt((document.getElementById('pomo-ss')||{}).value)||0);
     }
 
     function setPomoDisplay(s) {
-      document.getElementById('pomo-hh').value = padTwo(Math.floor(s/3600));
-      document.getElementById('pomo-mm').value = padTwo(Math.floor((s%3600)/60));
-      document.getElementById('pomo-ss').value = padTwo(s%60);
+      const hh = document.getElementById('pomo-hh');
+      const mm = document.getElementById('pomo-mm');
+      const ss = document.getElementById('pomo-ss');
+      if (hh) hh.value = padTwo(Math.floor(s/3600));
+      if (mm) mm.value = padTwo(Math.floor((s%3600)/60));
+      if (ss) ss.value = padTwo(s%60);
     }
 
     function pomoStart() {
       if (pomoRunning) return;
       pomoRemaining = getPomoInputSeconds();
       if (pomoRemaining <= 0) return;
-      pomoTotalSeconds = pomoRemaining; pomoRunning = true;
-      document.getElementById('pomo-start-btn').style.display = 'none';
-      document.getElementById('pomo-pause-btn').style.display = 'inline-block';
-      document.getElementById('pomo-status-txt').textContent = '⏳ Timer running...';
-      ['pomo-hh','pomo-mm','pomo-ss'].forEach(id => document.getElementById(id).readOnly = true);
+      pomoTotalSeconds = pomoRemaining;
+      pomoRunning = true;
+      const sb = document.getElementById('pomo-start-btn');
+      if (sb) sb.style.display = 'none';
+      const pb = document.getElementById('pomo-pause-btn');
+      if (pb) pb.style.display = 'inline-block';
+      const st = document.getElementById('pomo-status-txt');
+      if (st) st.textContent = '⏳ Timer running...';
+      ['pomo-hh', 'pomo-mm', 'pomo-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.readOnly = true;
+      });
       pomoInterval = setInterval(() => {
         pomoRemaining--;
         setPomoDisplay(pomoRemaining);
         if (pomoRemaining <= 0) {
-          clearInterval(pomoInterval); pomoInterval = null; pomoRunning = false;
-          document.getElementById('pomo-start-btn').style.display = 'inline-block';
-          document.getElementById('pomo-start-btn').textContent = '▶ Start';
-          document.getElementById('pomo-pause-btn').style.display = 'none';
-          document.getElementById('pomo-status-txt').textContent = "✅ Time's up!";
-          ['pomo-hh','pomo-mm','pomo-ss'].forEach(id => document.getElementById(id).readOnly = false);
+          clearInterval(pomoInterval);
+          pomoInterval = null;
+          pomoRunning = false;
+          const sb = document.getElementById('pomo-start-btn');
+          if (sb) {
+            sb.style.display = 'inline-block';
+            sb.textContent = '▶ Start';
+          }
+          const pb = document.getElementById('pomo-pause-btn');
+          if (pb) pb.style.display = 'none';
+          const st = document.getElementById('pomo-status-txt');
+          if (st) st.textContent = "✅ Time's up!";
+          ['pomo-hh', 'pomo-mm', 'pomo-ss'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.readOnly = false;
+          });
         }
       }, 1000);
     }
 
     function pomoPause() {
       if (!pomoRunning) return;
-      clearInterval(pomoInterval); pomoInterval = null; pomoRunning = false;
-      document.getElementById('pomo-start-btn').style.display = 'inline-block';
-      document.getElementById('pomo-start-btn').textContent = '▶ Resume';
-      document.getElementById('pomo-pause-btn').style.display = 'none';
-      document.getElementById('pomo-status-txt').textContent = '⏸ Paused';
-      ['pomo-hh','pomo-mm','pomo-ss'].forEach(id => document.getElementById(id).readOnly = false);
+      clearInterval(pomoInterval);
+      pomoInterval = null;
+      pomoRunning = false;
+      const sb = document.getElementById('pomo-start-btn');
+      if (sb) {
+        sb.style.display = 'inline-block';
+        sb.textContent = '▶ Resume';
+      }
+      const pb = document.getElementById('pomo-pause-btn');
+      if (pb) pb.style.display = 'none';
+      const st = document.getElementById('pomo-status-txt');
+      if (st) st.textContent = '⏸ Paused';
+      ['pomo-hh', 'pomo-mm', 'pomo-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.readOnly = false;
+      });
     }
 
     function pomoReset() {
-      clearInterval(pomoInterval); pomoInterval = null; pomoRunning = false;
-      const s = parseInt(localStorage.getItem('pomo-study-secs')) || 25*60;
-      pomoRemaining = s; pomoTotalSeconds = s; setPomoDisplay(s);
+      clearInterval(pomoInterval);
+      pomoInterval = null;
+      pomoRunning = false;
+      const s = parseInt(localStorage.getItem('pomo-study-secs')) || 25 * 60;
+      pomoRemaining = s;
+      pomoTotalSeconds = s;
+      setPomoDisplay(s);
       const sb = document.getElementById('pomo-start-btn');
-      if (sb) { sb.style.display = 'inline-block'; sb.textContent = '▶ Start'; }
+      if (sb) {
+        sb.style.display = 'inline-block';
+        sb.textContent = '▶ Start';
+      }
       const pb = document.getElementById('pomo-pause-btn');
       if (pb) pb.style.display = 'none';
       const st = document.getElementById('pomo-status-txt');
       if (st) st.textContent = '';
-      ['pomo-hh','pomo-mm','pomo-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.readOnly = false; });
+      ['pomo-hh', 'pomo-mm', 'pomo-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.readOnly = false;
+      });
     }
 
-    // ── Navigation ──
+
     function showSection(sectionId) {
       document.querySelectorAll('.content-view').forEach(v => v.style.display = 'none');
       document.getElementById(sectionId).style.display = 'block';
@@ -596,13 +644,14 @@
       localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     }
 
-    // ── Settings ──
+
     function saveProfile() {
       localStorage.setItem('profile-name', document.getElementById('profile-name').value.trim());
       localStorage.setItem('profile-year', document.getElementById('profile-year').value);
       localStorage.setItem('profile-major', document.getElementById('profile-major').value.trim());
       const msg = document.getElementById('profile-saved-msg');
-      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
     }
 
     function parsePomoTimeInput(hhId, mmId, ssId) {
@@ -617,16 +666,27 @@
       if (studySecs <= 0) return;
       localStorage.setItem('pomo-study-secs', studySecs);
       localStorage.setItem('pomo-break-secs', brkSecs || 300);
-      if (!pomoRunning) { setPomoDisplay(studySecs); pomoRemaining = studySecs; pomoTotalSeconds = studySecs; }
+      if (!pomoRunning) {
+        setPomoDisplay(studySecs);
+        pomoRemaining = studySecs;
+        pomoTotalSeconds = studySecs;
+      }
       const msg = document.getElementById('pomo-saved-msg');
       msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
     }
 
     function clearAllData() {
       localStorage.clear();
-      ['profile-name','profile-year','profile-major'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-      ['pomo-study-hh','pomo-study-mm','pomo-study-ss','pomo-break-hh','pomo-break-mm','pomo-break-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-      pomoReset(); renderTasks();
+      ['profile-name', 'profile-year', 'profile-major'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      ['pomo-study-hh', 'pomo-study-mm', 'pomo-study-ss', 'pomo-break-hh', 'pomo-break-mm', 'pomo-break-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      pomoReset();
+      renderTasks();
       const msg = document.getElementById('clear-msg');
       msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
     }
@@ -648,12 +708,14 @@
       fillTime('pomo-study-hh','pomo-study-mm','pomo-study-ss', studySecs);
       fillTime('pomo-break-hh','pomo-break-mm','pomo-break-ss', brkSecs);
       setPomoDisplay(studySecs);
-      pomoRemaining = studySecs; pomoTotalSeconds = studySecs;
+      pomoRemaining = studySecs;
+      pomoTotalSeconds = studySecs;
     }
 
 
-    // ── Focus Zone: Pomodoro ──
-    let fzInterval = null, fzRunning = false, fzRemaining = 25*60;
+    let fzInterval = null;
+    let fzRunning = false;
+    let fzRemaining = 25 * 60;
     let fzTotalSecs = 25*60;
     let fzSecsElapsed = 0;
 
@@ -680,58 +742,72 @@
       document.getElementById('fz-start-btn').style.display = 'none';
       document.getElementById('fz-pause-btn').style.display = 'inline-block';
       document.getElementById('fz-status').textContent = '⏳ Timer running...';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = true);
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = true);
       fzInterval = setInterval(() => {
         fzRemaining--;
         fzSecsElapsed++;
         fzSetDisplay(fzRemaining);
         updateLiveMins();
         if (fzRemaining <= 0) {
-          clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+          clearInterval(fzInterval);
+          fzInterval = null;
+          fzRunning = false;
           fzAutoLogSession();
           fzSecsElapsed = 0;
           document.getElementById('fz-start-btn').style.display = 'inline-block';
           document.getElementById('fz-start-btn').textContent = '▶ Start';
           document.getElementById('fz-pause-btn').style.display = 'none';
           document.getElementById('fz-status').textContent = "✅ Time's up! Session logged.";
-          ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+          ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
         }
       }, 1000);
     }
 
     function fzPause() {
       if (!fzRunning) return;
-      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      clearInterval(fzInterval);
+      fzInterval = null;
+      fzRunning = false;
       document.getElementById('fz-start-btn').style.display = 'inline-block';
       document.getElementById('fz-start-btn').textContent = '▶ Resume';
       document.getElementById('fz-pause-btn').style.display = 'none';
       document.getElementById('fz-status').textContent = '⏸ Paused';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
     }
 
     function fzReset() {
-      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      clearInterval(fzInterval);
+      fzInterval = null;
+      fzRunning = false;
       fzSecsElapsed = 0;
-      const secs = parseInt(localStorage.getItem('pomo-study-secs')) || 25*60;
-      fzTotalSecs = secs; fzRemaining = secs; fzSetDisplay(secs);
+      const secs = parseInt(localStorage.getItem('pomo-study-secs')) || 25 * 60;
+      fzTotalSecs = secs;
+      fzRemaining = secs;
+      fzSetDisplay(secs);
       const sb = document.getElementById('fz-start-btn');
-      if (sb) { sb.style.display = 'inline-block'; sb.textContent = '▶ Start'; }
+      if (sb) {
+        sb.style.display = 'inline-block';
+        sb.textContent = '▶ Start';
+      }
       const pb = document.getElementById('fz-pause-btn');
       if (pb) pb.style.display = 'none';
       const st = document.getElementById('fz-status');
       if (st) st.textContent = '';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.readOnly = false; });
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.readOnly = false;
+      });
     }
 
     function updateLiveMins() {
       const el = document.getElementById('fz-stat-mins');
       if (!el) return;
-      // Show minutes elapsed in real time — updates every second
-      // Format: whole minutes only, but updates the moment a new minute passes
+
+
       const totalSecsElapsed = fzSecsElapsed;
       const mins = Math.floor(totalSecsElapsed / 60);
       const secs = totalSecsElapsed % 60;
-      // Show "Xm Ys" while under 1 min, then "X min" after
+
       if (totalSecsElapsed < 60) {
         el.textContent = secs + 's';
       } else {
@@ -739,13 +815,15 @@
       }
     }
 
-    // ── Focus Zone: Website Blocker ──
+
     function getBlockList() {
       const s = localStorage.getItem('block-list');
       return s ? JSON.parse(s) : [];
     }
 
-    function saveBlockList(list) { localStorage.setItem('block-list', JSON.stringify(list)); }
+    function saveBlockList(list) {
+      localStorage.setItem('block-list', JSON.stringify(list));
+    }
 
     function renderBlockList() {
       const list = getBlockList();
@@ -768,10 +846,16 @@
 
     function fzAddBlock() {
       const input = document.getElementById('fz-block-input');
-      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+      let val = input.value.trim().toLowerCase();
+      val = val.replace('https://', '').replace('http://', '');
+      const slashIdx = val.indexOf('/');
+      if (slashIdx > -1) val = val.substring(0, slashIdx);
       if (!val) return;
       const list = getBlockList();
-      if (!list.includes(val)) { list.push(val); saveBlockList(list); }
+      if (!list.includes(val)) {
+        list.push(val);
+        saveBlockList(list);
+      }
       renderBlockList();
       input.value = '';
     }
@@ -793,14 +877,17 @@
       });
     }
 
-    function fzClearBlocks() { saveBlockList([]); renderBlockList(); }
+    function fzClearBlocks() {
+      saveBlockList([]);
+      renderBlockList();
+    }
 
-    // ── Session Stats ──
+
     function getStats() {
       const today = new Date().toDateString();
       const s = localStorage.getItem('fz-stats');
       const data = s ? JSON.parse(s) : {};
-      // Reset completely if it's a new day or no data yet
+
       if (!data.date || data.date !== today) {
         const fresh = { date: today, sessions: 0, mins: 0, secs: 0, streak: 0, history: [] };
         localStorage.setItem('fz-stats', JSON.stringify(fresh));
@@ -811,7 +898,9 @@
       return data;
     }
 
-    function saveStats(data) { localStorage.setItem('fz-stats', JSON.stringify(data)); }
+    function saveStats(data) {
+      localStorage.setItem('fz-stats', JSON.stringify(data));
+    }
 
     function renderStats() {
       const stats = getStats();
@@ -856,7 +945,10 @@
       saveStats(stats);
       renderStats();
       const msg = document.getElementById('fz-log-msg');
-      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+      if (msg) {
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      }
     }
 
     function fzUndoSession() {
@@ -868,7 +960,10 @@
       saveStats(stats);
       renderStats();
       const msg = document.getElementById('fz-undo-msg');
-      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+      if (msg) {
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      }
     }
 
     document.addEventListener('keydown', e => {
@@ -876,7 +971,7 @@
       if (e.key === 'Enter' && bi && bi === document.activeElement) fzAddBlock();
     });
 
-    // ── Quote of the Day ──
+
     const QUOTES = [
       { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
       { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
@@ -944,7 +1039,7 @@
     let lastQuoteIdx = -1;
 
     function getQuoteOfDay() {
-      // Use today's date as a deterministic seed — no localStorage needed
+
       const today = new Date();
       const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
       return seed % QUOTES.length;
@@ -965,20 +1060,22 @@
       }
     }
 
-    // Run immediately — don't wait for load event
+
     displayQuote(getQuoteOfDay());
 
     window.addEventListener('load', () => {
       if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
       loadSettings();
-      // Clear session stats on every page load — frontend only
+
       localStorage.removeItem('fz-stats');
       fzReset();
       renderBlockList();
       renderStats();
       const t = getTasks();
-      updateBadge(t); renderSnapshot(t); renderFocusBox(t); renderFocusMini(t);
-      updateBadge(t); renderSnapshot(t); renderFocusBox(t); renderFocusMini(t);
+      renderTasks();
+      renderSnapshot(t);
+      renderFocusBox(t);
+      renderFocusMini(t);
       const hash = window.location.hash.replace('#', '');
       if (hash === 'analytics-card') {
         showSection('calendar-section');

@@ -17,6 +17,7 @@
       <a href="index.html">Home</a>
       <a href="study-tips.html" class="active">Study Tips</a>
       <a href="schedule.html">Schedule</a>
+      <a href="contact.html">Contact</a>
     </div>
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
@@ -43,7 +44,7 @@
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('tasks-section')">
           <span class="sidebar-icon">📋</span>
           <span class="sidebar-text">Task Board</span>
-          <span class="sidebar-badge" id="task-badge">2</span>
+          <span class="sidebar-badge" id="task-badge">0</span>
         </a>
         <a href="index.html#analytics-card" class="sidebar-item">
           <span class="sidebar-icon">📊</span>
@@ -568,13 +569,9 @@
   <script>
 
     // ── Task Data ──
-    const DEFAULT_TASKS = [
-      { id: 1, text: '2 High Priority Tasks', priority: 'high', done: false, focus: false },
-      { id: 2, text: '1 Exam This Week', priority: 'high', done: false, focus: false }
-    ];
     function getTasks() {
       const s = localStorage.getItem('tasks');
-      return s ? JSON.parse(s) : DEFAULT_TASKS;
+      return s ? JSON.parse(s) : [];
     }
     function saveTasks(t) { localStorage.setItem('tasks', JSON.stringify(t)); }
 
@@ -869,7 +866,7 @@
 
     function fzAddBlock() {
       const input = document.getElementById('fz-block-input');
-      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+      let val = input.value.trim().toLowerCase(); val = val.replace('https://','').replace('http://',''); const slashIdx = val.indexOf('/'); if(slashIdx > -1) val = val.substring(0, slashIdx);
       if (!val) return;
       const list = getBlockList();
       if (!list.includes(val)) { list.push(val); saveBlockList(list); }
@@ -986,8 +983,8 @@
       renderBlockList();
       renderStats();
       const _t = getTasks();
+      renderTasks();
       renderSnapshot(_t);
-      updateBadge(_t);
       renderFocusBox(_t);
       renderFocusMini(_t);
       arRenderAll();

@@ -17,6 +17,7 @@
       <a href="index.html">Home</a>
       <a href="study-tips.html">Study Tips</a>
       <a href="schedule.html" class="active">Schedule</a>
+      <a href="contact.html">Contact</a>
     </div>
     <div class="search-wrap">
       <span class="search-icon">⌕</span>
@@ -27,9 +28,9 @@
   <div class="main-layout">
 
     <aside class="sidebar">
-      
+
       <input type="checkbox" id="sidebar-toggle" class="sidebar-toggle-input" />
-      
+
       <label for="sidebar-toggle" class="sidebar-toggle-btn">
         <span class="arrow-icon">→</span>
       </label>
@@ -43,7 +44,7 @@
         <a href="javascript:void(0)" class="sidebar-item" onclick="showSection('tasks-section')">
           <span class="sidebar-icon">📋</span>
           <span class="sidebar-text">Task Board</span>
-          <span class="sidebar-badge" id="task-badge">2</span>
+          <span class="sidebar-badge" id="task-badge">0</span>
         </a>
         <a href="index.html#analytics-card" class="sidebar-item">
           <span class="sidebar-icon">📊</span>
@@ -126,8 +127,6 @@
           </div>
         </div>
 
-
-
       </div>
 
       <div id="tasks-section" class="content-view" style="display: none;">
@@ -166,7 +165,6 @@
 
       <div id="focus-section" class="content-view" style="display: none;">
 
-        <!-- Header -->
         <div class="fz-page-header animate-1">
           <div class="fz-page-icon">🎯</div>
           <div>
@@ -175,10 +173,8 @@
           </div>
         </div>
 
-        <!-- Row 1: Pomodoro + Study Stats -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
 
-          <!-- Pomodoro Timer -->
           <div class="focus-panel animate-2">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">⏱️</span>
@@ -209,7 +205,6 @@
             </div>
           </div>
 
-          <!-- Session Stats -->
           <div class="focus-panel animate-2">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">📊</span>
@@ -243,10 +238,8 @@
 
         </div>
 
-        <!-- Row 2: Website Blocker + Focus Tips -->
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
 
-          <!-- Website Blocker -->
           <div class="focus-panel animate-3">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">🚫</span>
@@ -268,7 +261,6 @@
             </div>
           </div>
 
-          <!-- Focus Tips -->
           <div class="focus-panel animate-3">
             <div class="focus-panel-header">
               <span class="focus-panel-icon">💡</span>
@@ -349,19 +341,23 @@
           <div class="settings-group">
             <div class="settings-field">
               <label class="settings-label">Study Session Duration (HH:MM:SS)</label>
-              <div class="pomo-time-input-wrap"><input type="text" id="pomo-study-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+              <div class="pomo-time-input-wrap">
+                <input type="text" id="pomo-study-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
                 <span class="pomo-time-colon">:</span>
                 <input type="text" id="pomo-study-mm" class="settings-input pomo-time-part" maxlength="2" placeholder="25" />
                 <span class="pomo-time-colon">:</span>
                 <input type="text" id="pomo-study-ss" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+              </div>
             </div>
             <div class="settings-field">
               <label class="settings-label">Short Break Duration (HH:MM:SS)</label>
-              <div class="pomo-time-input-wrap"><input type="text" id="pomo-break-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+              <div class="pomo-time-input-wrap">
+                <input type="text" id="pomo-break-hh" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
                 <span class="pomo-time-colon">:</span>
                 <input type="text" id="pomo-break-mm" class="settings-input pomo-time-part" maxlength="2" placeholder="05" />
                 <span class="pomo-time-colon">:</span>
                 <input type="text" id="pomo-break-ss" class="settings-input pomo-time-part" maxlength="2" placeholder="00" />
+              </div>
             </div>
             <button class="settings-save-btn" onclick="savePomodoro()">Apply Timer</button>
             <p id="pomo-saved-msg" class="settings-success-msg" style="display:none;">✔ Timer updated! Visit Home tab to see it.</p>
@@ -388,16 +384,14 @@
 
   <script>
 
-    // ── Task Data ──
-    const DEFAULT_TASKS = [
-      { id: 1, text: '2 High Priority Tasks', priority: 'high', done: false, focus: false },
-      { id: 2, text: '1 Exam This Week', priority: 'high', done: false, focus: false }
-    ];
     function getTasks() {
       const s = localStorage.getItem('tasks');
-      return s ? JSON.parse(s) : DEFAULT_TASKS;
+      return s ? JSON.parse(s) : [];
     }
-    function saveTasks(t) { localStorage.setItem('tasks', JSON.stringify(t)); }
+
+    function saveTasks(t) {
+      localStorage.setItem('tasks', JSON.stringify(t));
+    }
 
     function renderTasks() {
       const tasks = getTasks();
@@ -488,16 +482,22 @@
       const tasks = getTasks();
       const newId = tasks.length > 0 ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
       tasks.push({ id: newId, text, priority, done: false, focus: false });
-      saveTasks(tasks); renderTasks(); input.value = '';
+      saveTasks(tasks);
+      renderTasks();
+      input.value = '';
     }
 
-    function deleteTask(id) { saveTasks(getTasks().filter(t => t.id !== id)); renderTasks(); }
+    function deleteTask(id) {
+      saveTasks(getTasks().filter(t => t.id !== id));
+      renderTasks();
+    }
 
     function toggleTask(id) {
       const tasks = getTasks();
       const t = tasks.find(x => x.id === id);
       if (t) t.done = !t.done;
-      saveTasks(tasks); renderTasks();
+      saveTasks(tasks);
+      renderTasks();
     }
 
     document.addEventListener('keydown', e => {
@@ -505,14 +505,12 @@
       if (e.key === 'Enter' && ti && ti === document.activeElement) addTask();
     });
 
-
-    // ── Weekly Calendar ──
-    const CAL_DEFAULT_TIMES = ['8:00 AM','9:20 AM','10:00 AM','12:00 PM','3:00 PM','5:00 PM'];
+    const CAL_DEFAULT_TIMES = ['8:00 AM', '9:20 AM', '10:00 AM', '12:00 PM', '3:00 PM', '5:00 PM'];
 
     function getCalData() {
       const stored = localStorage.getItem('cal-data');
       if (stored) return JSON.parse(stored);
-      return CAL_DEFAULT_TIMES.map(t => ({ time: t, cells: ['','','','','','',''], active: [false,false,false,false,false,false,false] }));
+      return CAL_DEFAULT_TIMES.map(t => ({ time: t, cells: ['', '', '', '', '', '', ''], active: [false, false, false, false, false, false, false] }));
     }
 
     function saveCalData() {
@@ -533,7 +531,6 @@
 
     function buildCalRow(rowData, rowIndex) {
       const tr = document.createElement('tr');
-      // Time cell
       const timeTd = document.createElement('td');
       timeTd.style.padding = '6px 8px';
       const timeInput = document.createElement('input');
@@ -544,7 +541,6 @@
       timeInput.addEventListener('change', saveCalData);
       timeTd.appendChild(timeInput);
       tr.appendChild(timeTd);
-      // Day cells
       for (let d = 0; d < 7; d++) {
         const td = document.createElement('td');
         td.className = 'cal-day-cell' + (rowData.active[d] ? ' active' : '');
@@ -556,7 +552,7 @@
           ta.addEventListener('click', e => e.stopPropagation());
           td.appendChild(ta);
         }
-        td.addEventListener('click', function() {
+        td.addEventListener('click', function () {
           this.classList.toggle('active');
           if (this.classList.contains('active')) {
             const ta = document.createElement('textarea');
@@ -586,7 +582,7 @@
 
     function calAddRow() {
       const data = getCalData();
-      data.push({ time: '', cells: ['','','','','','',''], active: [false,false,false,false,false,false,false] });
+      data.push({ time: '', cells: ['', '', '', '', '', '', ''], active: [false, false, false, false, false, false, false] });
       localStorage.setItem('cal-data', JSON.stringify(data));
       renderCal();
     }
@@ -599,7 +595,6 @@
       renderCal();
     }
 
-    // ── Section Navigation ──
     function showSection(sectionId) {
       document.querySelectorAll('.content-view').forEach(v => v.style.display = 'none');
       document.getElementById(sectionId).style.display = 'block';
@@ -612,16 +607,18 @@
       localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
     }
 
-    // ── Settings ──
     function saveProfile() {
       localStorage.setItem('profile-name', document.getElementById('profile-name').value.trim());
       localStorage.setItem('profile-year', document.getElementById('profile-year').value);
       localStorage.setItem('profile-major', document.getElementById('profile-major').value.trim());
       const msg = document.getElementById('profile-saved-msg');
-      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
     }
 
-    function padTwo(n) { return String(n).padStart(2, '0'); }
+    function padTwo(n) {
+      return String(n).padStart(2, '0');
+    }
 
     function parsePomoTimeInput(hhId, mmId, ssId) {
       const hh = parseInt(document.getElementById(hhId).value) || 0;
@@ -631,22 +628,31 @@
     }
 
     function savePomodoro() {
-      const studySecs = parsePomoTimeInput('pomo-study-hh','pomo-study-mm','pomo-study-ss');
-      const brkSecs = parsePomoTimeInput('pomo-break-hh','pomo-break-mm','pomo-break-ss');
+      const studySecs = parsePomoTimeInput('pomo-study-hh', 'pomo-study-mm', 'pomo-study-ss');
+      const brkSecs = parsePomoTimeInput('pomo-break-hh', 'pomo-break-mm', 'pomo-break-ss');
       if (studySecs <= 0) return;
       localStorage.setItem('pomo-study-secs', studySecs);
       localStorage.setItem('pomo-break-secs', brkSecs || 300);
       const msg = document.getElementById('pomo-saved-msg');
-      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
     }
 
     function clearAllData() {
       localStorage.clear();
-      ['profile-name','profile-year','profile-major'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-      ['pomo-study-hh','pomo-study-mm','pomo-study-ss','pomo-break-hh','pomo-break-mm','pomo-break-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-      renderTasks(); renderCal();
+      ['profile-name', 'profile-year', 'profile-major'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      ['pomo-study-hh', 'pomo-study-mm', 'pomo-study-ss', 'pomo-break-hh', 'pomo-break-mm', 'pomo-break-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      renderTasks();
+      renderCal();
       const msg = document.getElementById('clear-msg');
-      msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000);
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 3000);
     }
 
     function loadSettings() {
@@ -659,31 +665,32 @@
       if (year) document.getElementById('profile-year').value = year;
       if (major) document.getElementById('profile-major').value = major;
       const fillTime = (hhId, mmId, ssId, secs) => {
-        document.getElementById(hhId).value = padTwo(Math.floor(secs/3600));
-        document.getElementById(mmId).value = padTwo(Math.floor((secs%3600)/60));
-        document.getElementById(ssId).value = padTwo(secs%60);
+        document.getElementById(hhId).value = padTwo(Math.floor(secs / 3600));
+        document.getElementById(mmId).value = padTwo(Math.floor((secs % 3600) / 60));
+        document.getElementById(ssId).value = padTwo(secs % 60);
       };
-      fillTime('pomo-study-hh','pomo-study-mm','pomo-study-ss', studySecs);
-      fillTime('pomo-break-hh','pomo-break-mm','pomo-break-ss', brkSecs);
+      fillTime('pomo-study-hh', 'pomo-study-mm', 'pomo-study-ss', studySecs);
+      fillTime('pomo-break-hh', 'pomo-break-mm', 'pomo-break-ss', brkSecs);
     }
 
-    // ── Focus Zone: Pomodoro ──
-    let fzInterval = null, fzRunning = false, fzRemaining = 25*60;
-    let fzTotalSecs = 25*60;   // total secs when Start was pressed
-    let fzSecsElapsed = 0;     // secs elapsed in current run (resets on Reset)
+    let fzInterval = null, fzRunning = false, fzRemaining = 25 * 60;
+    let fzTotalSecs = 25 * 60;
+    let fzSecsElapsed = 0;
 
-    function fzPad(n) { return String(n).padStart(2,'0'); }
+    function fzPad(n) {
+      return String(n).padStart(2, '0');
+    }
 
     function fzSetDisplay(secs) {
-      document.getElementById('fz-hh').value = fzPad(Math.floor(secs/3600));
-      document.getElementById('fz-mm').value = fzPad(Math.floor((secs%3600)/60));
-      document.getElementById('fz-ss').value = fzPad(secs%60);
+      document.getElementById('fz-hh').value = fzPad(Math.floor(secs / 3600));
+      document.getElementById('fz-mm').value = fzPad(Math.floor((secs % 3600) / 60));
+      document.getElementById('fz-ss').value = fzPad(secs % 60);
     }
 
     function fzGetInput() {
-      return (parseInt(document.getElementById('fz-hh').value)||0)*3600 +
-             (parseInt(document.getElementById('fz-mm').value)||0)*60 +
-             (parseInt(document.getElementById('fz-ss').value)||0);
+      return (parseInt(document.getElementById('fz-hh').value) || 0) * 3600 +
+             (parseInt(document.getElementById('fz-mm').value) || 0) * 60 +
+             (parseInt(document.getElementById('fz-ss').value) || 0);
     }
 
     function fzStart() {
@@ -695,69 +702,77 @@
       document.getElementById('fz-start-btn').style.display = 'none';
       document.getElementById('fz-pause-btn').style.display = 'inline-block';
       document.getElementById('fz-status').textContent = '⏳ Timer running...';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = true);
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = true);
       fzInterval = setInterval(() => {
         fzRemaining--;
         fzSecsElapsed++;
         fzSetDisplay(fzRemaining);
-        // Update Mins Focused in real time (every second)
         updateLiveMins();
         if (fzRemaining <= 0) {
-          clearInterval(fzInterval); fzInterval = null; fzRunning = false;
-          // Auto-log a completed session when timer finishes naturally
+          clearInterval(fzInterval);
+          fzInterval = null;
+          fzRunning = false;
           fzAutoLogSession();
           fzSecsElapsed = 0;
           document.getElementById('fz-start-btn').style.display = 'inline-block';
           document.getElementById('fz-start-btn').textContent = '▶ Start';
           document.getElementById('fz-pause-btn').style.display = 'none';
           document.getElementById('fz-status').textContent = "✅ Time's up! Session logged.";
-          ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+          ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
         }
       }, 1000);
     }
 
     function fzPause() {
       if (!fzRunning) return;
-      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      clearInterval(fzInterval);
+      fzInterval = null;
+      fzRunning = false;
       document.getElementById('fz-start-btn').style.display = 'inline-block';
       document.getElementById('fz-start-btn').textContent = '▶ Resume';
       document.getElementById('fz-pause-btn').style.display = 'none';
       document.getElementById('fz-status').textContent = '⏸ Paused';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => document.getElementById(id).readOnly = false);
     }
 
     function fzReset() {
-      clearInterval(fzInterval); fzInterval = null; fzRunning = false;
+      clearInterval(fzInterval);
+      fzInterval = null;
+      fzRunning = false;
       fzSecsElapsed = 0;
-      const secs = parseInt(localStorage.getItem('pomo-study-secs')) || 25*60;
-      fzTotalSecs = secs; fzRemaining = secs; fzSetDisplay(secs);
+      const secs = parseInt(localStorage.getItem('pomo-study-secs')) || 25 * 60;
+      fzTotalSecs = secs;
+      fzRemaining = secs;
+      fzSetDisplay(secs);
       const sb = document.getElementById('fz-start-btn');
       if (sb) { sb.style.display = 'inline-block'; sb.textContent = '▶ Start'; }
       const pb = document.getElementById('fz-pause-btn');
       if (pb) pb.style.display = 'none';
       const st = document.getElementById('fz-status');
       if (st) st.textContent = '';
-      ['fz-hh','fz-mm','fz-ss'].forEach(id => { const el = document.getElementById(id); if(el) el.readOnly = false; });
+      ['fz-hh', 'fz-mm', 'fz-ss'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.readOnly = false;
+      });
     }
 
-    // Update Mins Focused live as timer ticks
     function updateLiveMins() {
       const stats = getStats();
       const el = document.getElementById('fz-stat-mins');
       if (el) {
-        // total = saved mins + elapsed secs from current run (converted to mins, rounded down)
         const liveMins = stats.mins + Math.floor(fzSecsElapsed / 60);
         el.textContent = liveMins;
       }
     }
 
-    // ── Focus Zone: Website Blocker ──
     function getBlockList() {
       const s = localStorage.getItem('block-list');
       return s ? JSON.parse(s) : [];
     }
 
-    function saveBlockList(list) { localStorage.setItem('block-list', JSON.stringify(list)); }
+    function saveBlockList(list) {
+      localStorage.setItem('block-list', JSON.stringify(list));
+    }
 
     function renderBlockList() {
       const list = getBlockList();
@@ -780,10 +795,16 @@
 
     function fzAddBlock() {
       const input = document.getElementById('fz-block-input');
-      const val = input.value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+      let val = input.value.trim().toLowerCase();
+      val = val.replace('https://', '').replace('http://', '');
+      const slashIdx = val.indexOf('/');
+      if (slashIdx > -1) val = val.substring(0, slashIdx);
       if (!val) return;
       const list = getBlockList();
-      if (!list.includes(val)) { list.push(val); saveBlockList(list); }
+      if (!list.includes(val)) {
+        list.push(val);
+        saveBlockList(list);
+      }
       renderBlockList();
       input.value = '';
     }
@@ -810,12 +831,10 @@
       renderBlockList();
     }
 
-    // ── Session Stats ──
     function getStats() {
       const today = new Date().toDateString();
       const s = localStorage.getItem('fz-stats');
       const data = s ? JSON.parse(s) : {};
-      // Reset completely if it's a new day or no data yet
       if (!data.date || data.date !== today) {
         const fresh = { date: today, sessions: 0, mins: 0, secs: 0, streak: 0, history: [] };
         localStorage.setItem('fz-stats', JSON.stringify(fresh));
@@ -826,7 +845,9 @@
       return data;
     }
 
-    function saveStats(data) { localStorage.setItem('fz-stats', JSON.stringify(data)); }
+    function saveStats(data) {
+      localStorage.setItem('fz-stats', JSON.stringify(data));
+    }
 
     function renderStats() {
       const stats = getStats();
@@ -847,7 +868,6 @@
       if (el('fz-stat-tasks')) el('fz-stat-tasks').textContent = done;
     }
 
-    // Called when timer naturally finishes — auto logs session
     function fzAutoLogSession() {
       const stats = getStats();
       const minsThisSession = Math.round(fzTotalSecs / 60);
@@ -860,7 +880,6 @@
       renderStats();
     }
 
-    // Manual log button — logs mins elapsed so far
     function fzLogSession() {
       const stats = getStats();
       const minsThisSession = Math.max(1, Math.floor(fzSecsElapsed / 60));
@@ -869,14 +888,16 @@
       stats.mins += minsThisSession;
       stats.secs = 0;
       stats.streak = Math.max(1, stats.streak);
-      fzSecsElapsed = 0; // reset elapsed counter after logging
+      fzSecsElapsed = 0;
       saveStats(stats);
       renderStats();
       const msg = document.getElementById('fz-log-msg');
-      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+      if (msg) {
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      }
     }
 
-    // Undo last logged session
     function fzUndoSession() {
       const stats = getStats();
       if (!stats.history || stats.history.length === 0) return;
@@ -886,7 +907,10 @@
       saveStats(stats);
       renderStats();
       const msg = document.getElementById('fz-undo-msg');
-      if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2500); }
+      if (msg) {
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+      }
     }
 
     document.addEventListener('keydown', e => {
@@ -897,26 +921,26 @@
     window.addEventListener('load', () => {
       if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
       loadSettings();
-      // Clear session stats on every page load — frontend only, no persistence needed
       localStorage.removeItem('fz-stats');
       fzReset();
       renderBlockList();
       renderStats();
       renderCal();
       const _t = getTasks();
+      renderTasks();
       renderSnapshot(_t);
-      updateBadge(_t);
       renderFocusBox(_t);
       renderFocusMini(_t);
       const hash = window.location.hash.replace('#', '');
       if (hash === 'focus-zone-card') {
         showSection('focus-section');
-        setTimeout(() => document.getElementById(hash).scrollIntoView({behavior:'smooth'}), 100);
+        setTimeout(() => document.getElementById(hash).scrollIntoView({ behavior: 'smooth' }), 100);
       } else if (hash) {
         const target = document.getElementById(hash);
         if (target) showSection(hash);
       }
     });
+
   </script>
 
 </body>
